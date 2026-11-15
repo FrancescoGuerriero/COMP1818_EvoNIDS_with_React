@@ -8,6 +8,6 @@ Put the files at:
 - `data/raw/UNSW_NB15_testing-set.csv` (82,332 records)
 
 The CSVs are not committed to Git. The Windows GitHub Actions **full** workflow
-uses a documented public mirror of the two partitions, records SHA-256 hashes,
+uses a documented public mirror (https://github.com/Nir-J/ML-Projects/tree/master/UNSW-Network_Packet_Classification) of the two partitions, records SHA-256 hashes,
 and checks row counts. Compare those hashes with the official originals before
 claiming exact dataset equivalence. Research runs do not use test data for search.

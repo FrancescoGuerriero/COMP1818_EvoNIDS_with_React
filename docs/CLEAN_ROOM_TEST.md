@@ -243,3 +243,19 @@ Check `http://127.0.0.1:8000/api/health`. Then start React from `frontend/` in a
 **Exact reproduction of original historical source/settings:** **NOT_VERIFIED**.
 
 Do not use the blanket label `CLEAN_ROOM_PASS` for the entire current project until the remaining clean-room and integration checks are completed and their logs preserved.
+## GitHub-hosted Windows clean-room verification (2026-11-15)
+
+The project was published at the repository root, commit `faf65525d9de61a3cca57b5392e1edf2ee2976bb`, and subsequent fixes were pushed to `main`.
+
+Verified on a GitHub-hosted `windows-latest` runner with Python 3.12 and Node.js 22:
+
+- Python dependency installation: **PASS** after adding the missing `httpx2` test dependency.
+- Research/prototype pytest collection and tests: **PASS**.
+- Recorded joint-mode evolutionary synthetic smoke run and replay: **PASS**.
+- React TypeScript/Vite production build: **PASS**.
+
+Evidence: https://github.com/FrancescoGuerriero/COMP1818_EvoNIDS_with_React/actions/runs/43735030092
+
+The initial Windows CI attempt failed on a missing `httpx2` dependency and was corrected. The successful CI run verifies GitHub checkout and the build pipeline, **not** the official UNSW-NB15 full experiment.
+
+The ten full-data GitHub-hosted Windows jobs (five seeds for each mode) were initiated in run https://github.com/FrancescoGuerriero/COMP1818_EvoNIDS_with_React/actions/runs/43735266330 . Inspect the final job conclusions, per-seed manifests and SHA-256 dataset hashes before claiming all official runs have passed. These jobs use a documented public mirror and its byte identity must be checked against the official dataset. They do not execute on the student's personal Windows device.

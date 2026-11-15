@@ -77,8 +77,8 @@ baselines, algorithm results and exported models. Do not overwrite historical fi
 [Windows verification workflow](.github/workflows/windows.yml) runs Python tests,
 a synthetic evolutionary smoke test and the React production build on pushes.
 For a full official experiment, open **Actions → Windows verification and full
-experiments → Run workflow**, set `run_full=true`, and choose `features` or `joint`.
-Five independent Windows jobs run the five seeds, and upload per-seed evidence.
+experiments → Run workflow**, set `run_full=true`. Both `features` and `joint` modes are run.
+Ten independent Windows jobs cover both modes and all five seeds, uploading per-seed evidence.
 A workflow that has not passed is not evidence of successful reproduction.
 Check compute quotas and the dataset source/hashes before triggering full runs.
 

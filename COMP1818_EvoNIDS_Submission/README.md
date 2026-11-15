@@ -1,14 +1,14 @@
-# Multi-Objective Evolutionary Feature Selection for Efficient Network Intrusion Detection
+Multi-Objective Evolutionary Feature Selection for Efficient Network Intrusion Detection
 
 COMP1818 Artificial Intelligence Applications coursework implementation and reproducibility package.
 
-## Project objective
+Project objective
 
 This project evaluates Genetic Algorithm (GA), Binary Particle Swarm Optimisation (BPSO), Particle Swarm Optimisation (PSO), and NSGA-II feature selection for binary network intrusion detection on UNSW-NB15. The primary objective is to reduce raw network-traffic dimensionality while maintaining predictive performance.
 
-The final controlled comparison uses five seeds (`42, 101, 202, 303, 404`) and an equal budget of **300 unique expensive fitness evaluations per optimiser per seed**. Random Forest is used as the wrapper classifier. Full-feature Dummy, Logistic Regression, Random Forest, and XGBoost baselines are also evaluated.
+The final controlled comparison uses five seeds (`42, 101, 202, 303, 404`) and an equal budget of 300 unique expensive fitness evaluations per optimiser per seed. Random Forest is used as the wrapper classifier. Full-feature Dummy, Logistic Regression, Random Forest, and XGBoost baselines are also evaluated.
 
-## Main result
+Main result
 
 GA + Random Forest achieved the strongest feature-selection trade-off:
 
@@ -21,7 +21,7 @@ GA + Random Forest achieved the strongest feature-selection trade-off:
 
 The correct interpretation is that GA provides the strongest accuracy-dimensionality trade-off; XGBoost remains the strongest absolute full-feature classifier.
 
-## Repository layout
+Repository layout
 
 ```text
 .
@@ -59,9 +59,9 @@ The correct interpretation is that GA provides the strongest accuracy-dimensiona
     `-- verify_submission.py
 ```
 
-## Dataset
+Dataset
 
-Dataset: **UNSW-NB15**
+Dataset: UNSW-NB15
 
 Official source: https://research.unsw.edu.au/projects/unsw-nb15-dataset
 
@@ -78,11 +78,11 @@ The identifier `id` and multiclass attack category `attack_cat` are excluded fro
 
 The raw dataset is intentionally not bundled in this repository package. Download it from the official source and place the two CSV files under `data/raw/`.
 
-## Python environment
+Python environment
 
 The coursework experiments were developed with Python 3.12.
 
-### Windows / Git Bash
+Windows / Git Bash
 
 ```bash
 python -m venv .venv
@@ -100,7 +100,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-### Linux
+Linux
 
 ```bash
 python3 -m venv .venv
@@ -109,7 +109,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-## Tests
+Tests
 
 ```bash
 python -m pytest
@@ -121,11 +121,11 @@ For the curated submission package, verify the expected release structure with:
 python tools/verify_submission.py
 ```
 
-## Full experiment commands
+Full experiment commands
 
 The canonical local project contains the complete research implementation. After the repository is populated from that canonical project, the principal commands are:
 
-### Full-feature baselines
+Full-feature baselines
 
 ```bash
 python -m research.src.run_full_feature_baselines \
@@ -135,7 +135,7 @@ python -m research.src.run_full_feature_baselines \
   --output-dir results/full_feature_baselines
 ```
 
-### Equal-budget GA / BPSO / PSO comparison
+Equal-budget GA / BPSO / PSO comparison
 
 ```bash
 python -m research.src.run_fair_budget_suite \
@@ -149,7 +149,7 @@ python -m research.src.run_fair_budget_suite \
   --output-dir results/fair_budget_300
 ```
 
-### NSGA-II
+NSGA-II
 
 ```bash
 python -m research.src.run_nsga2_suite \
@@ -163,7 +163,7 @@ python -m research.src.run_nsga2_suite \
   --output-dir results/nsga2_300
 ```
 
-### Rebuild final analysis
+Rebuild final analysis
 
 ```bash
 python -m research.src.analyse_final_results
@@ -172,7 +172,7 @@ python -m research.src.build_final_report_tables
 ```
 
 
-## React frontend
+React frontend
 
 The `frontend/` directory contains a React + TypeScript + Vite control-centre UI for the Windows IDS prototype. It includes:
 
@@ -197,9 +197,9 @@ npm run dev
 
 Open `http://127.0.0.1:5173`. The Live Connections page polls the passive Windows telemetry API and Model Replay sends CSV content to the saved Python classifier. If the API is unavailable, the connection table falls back to rows that are explicitly labelled as demonstration data. Build the production bundle with `npm run build`.
 
-## Windows IDS prototype
+Windows IDS prototype
 
-The `prototype/` directory provides a **passive, defensive Windows IDS prototype** with two roles:
+The `prototype/` directory provides a passive, defensive Windows IDS prototype with two roles:
 
 1. `replay`: run a trained scikit-learn pipeline against UNSW-NB15-compatible CSV rows.
 2. `monitor`: display passive local TCP/UDP connection telemetry obtained through `psutil` without blocking traffic or changing firewall rules.
@@ -220,9 +220,9 @@ A synthetic demonstration model can be created only for smoke-testing the protot
 python -m prototype.train_demo_model --output models/demo_pipeline.joblib
 ```
 
-Synthetic demo results are **not** coursework benchmark results.
+Synthetic demo results are not coursework benchmark results.
 
-## Reproducible submission build
+Reproducible submission build
 
 From the canonical local project root, use:
 
@@ -234,7 +234,7 @@ The packager excludes machine-specific and unnecessary material such as `.venv`,
 
 See `docs/REPRODUCTION.md` for a clean-room verification procedure.
 
-## Coursework delivery
+Coursework delivery
 
 The formal Moodle submission is the report PDF. The report should contain:
 
@@ -242,8 +242,8 @@ The formal Moodle submission is the report PDF. The report should contain:
 - the official UNSW-NB15 dataset link;
 - enough detail for the teaching team to map the report claims to code and result files.
 
-Do **not** upload the code archive to Moodle unless the teaching team explicitly requests it; keep the implementation available through the GitHub link used in the report.
+Do not upload the code archive to Moodle unless the teaching team explicitly requests it; keep the implementation available through the GitHub link used in the report.
 
-## Academic integrity and AI use
+Academic integrity and AI use
 
 The report includes the required 60-100 word reflection on generative-AI use. Experimental outputs are generated by the implemented Python pipeline; AI assistance is described as development, explanation, review, and writing support rather than as a source of experimental measurements.

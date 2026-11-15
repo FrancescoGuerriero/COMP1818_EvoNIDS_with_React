@@ -23,7 +23,3 @@ models/*.joblib
 data/raw/*.csv
 data/raw/*.pcap
 data/raw/*.pcapng
-
-# Generated reproducibility artifacts; keep historical curated CSVs in results/
-results/protocol_runs/
-frontend/package-lock.json

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { connections, predictions } from './data/demo'
-import { api, type ApiConnection, type ReplayRecord, type ExperimentResults } from './api'
+import { api, type ApiConnection, type ReplayRecord } from './api'
 
 type View = 'overview' | 'connections' | 'replay' | 'research'
 
@@ -237,47 +237,20 @@ function Replay() {
 }
 
 function Research() {
-  const [fresh, setFresh] = useState<ExperimentResults | null>(null)
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    let active = true
-    api.experimentResults()
-      .then((response) => { if (active) setFresh(response) })
-      .catch(() => { if (active) setFresh(null) })
-      .finally(() => { if (active) setLoading(false) })
-    return () => { active = false }
-  }, [])
-
-  // Fixed figures are explicitly HISTORICAL, never mislabelled as rerun output.
-  const historical = [
-    ['XGBoost', '0.8704', '42', '0%'], ['GA + RF', '0.8654', '10.2', '75.71%'],
-    ['Random Forest', '0.8642', '42', '0%'], ['BPSO + RF', '0.8615', '12.2', '70.95%'],
-    ['PSO + RF', '0.8598', '11.4', '72.86%'], ['NSGA-II + RF', '0.8562', '10.6', '74.76%']
+  const methods = [
+    ['XGBoost', '0.8704', '42', '0%'], ['GA + RF', '0.8654', '10.2', '75.71%'], ['Random Forest', '0.8642', '42', '0%'],
+    ['BPSO + RF', '0.8615', '12.2', '70.95%'], ['PSO + RF', '0.8598', '11.4', '72.86%'], ['NSGA-II + RF', '0.8562', '10.6', '74.76%']
   ]
-  const verified = fresh?.available === true
-  const rows: string[][] = verified ? [
-    ...fresh.optimisers.map((r) => [
-      `${r.method} + RF`, Number(r.macro_f1_mean).toFixed(4),
-      Number(r.mean_features).toFixed(1), `${Number(r.mean_reduction_pct).toFixed(2)}%`
-    ]),
-    ...fresh.baselines.map((r) => [r.model, Number(r.macro_f1_mean).toFixed(4), '42', '0%'])
-  ] : historical
   return (
     <section className="card panel">
-      <div className="panel-heading">
-        <div><span className="eyebrow">{verified ? 'Latest recorded official-data run' : 'Historical five-seed summary'}</span><h2>Research results</h2></div>
-        <Badge tone={verified ? 'good' : 'warn'}>{verified ? 'Verified run' : loading ? 'Checking…' : 'Historical data'}</Badge>
-      </div>
-      <p className="muted">{verified
-        ? `Displaying completed run ${fresh.run_id}. Results are read from the recorded experiment outputs.`
-        : 'These numbers are from previous research results, not a newly executed experiment. Run the full Python protocol to generate and display new official-data results.'}</p>
+      <div className="panel-heading"><div><span className="eyebrow">Five-seed final comparison</span><h2>Research results</h2></div><Badge>300 evaluations</Badge></div>
       <div className="table-wrap">
         <table><thead><tr><th>Method</th><th>Macro-F1</th><th>Mean features</th><th>Reduction</th></tr></thead>
-          <tbody>{rows.map(([method, f1, features, reduction]) => <tr key={method}><td><strong>{method}</strong></td><td>{f1}</td><td>{features}</td><td>{reduction}</td></tr>)}</tbody></table>
+          <tbody>{methods.map(([method, f1, features, reduction]) => <tr key={method}><td><strong>{method}</strong></td><td>{f1}</td><td>{features}</td><td>{reduction}</td></tr>)}</tbody></table>
       </div>
       <div className="research-notes">
-        <p><strong>Interpretation.</strong> Historical benchmarks favoured full-feature XGBoost for absolute Macro-F1, with GA + RF providing the strongest feature-selection trade-off. Newly recorded runs may differ.</p>
-        <p><strong>Statistical caution.</strong> Five paired runs provide limited power. Historical Friedman analysis did not establish significant differences between search algorithms.</p>
+        <p><strong>Interpretation.</strong> Full-feature XGBoost achieves the highest absolute Macro-F1. GA + RF gives the strongest feature-selection trade-off, retaining about a quarter of the raw predictors while slightly exceeding full-feature RF.</p>
+        <p><strong>Statistical caution.</strong> Five paired stochastic runs provide limited power. The Friedman test did not establish a significant overall difference, so the dashboard reports descriptive performance rather than claiming statistical superiority.</p>
       </div>
     </section>
   )

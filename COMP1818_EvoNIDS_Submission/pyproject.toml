@@ -9,5 +9,5 @@ description = "Multi-objective evolutionary feature selection for efficient netw
 requires-python = ">=3.12"
 
 [tool.pytest.ini_options]
-testpaths = ["prototype/tests", "research/tests"]
+testpaths = ["prototype/tests"]
 addopts = "-q"

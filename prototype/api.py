@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import io
+import json
 import os
 import tempfile
 from pathlib import Path
@@ -79,3 +80,31 @@ async def replay(request: Request) -> dict:
 
     clean = scored.where(pd.notnull(scored), None)
     return {"rows": clean.to_dict(orient="records"), "count": int(len(clean))}
+
+
+@app.get("/api/experiment-results")
+def experiment_results() -> dict:
+    """Latest completed full official-data run, never synthetic smoke data.
+
+    Does not expose raw logs, filesystem paths, or incomplete runs. Historical
+    research summaries in the React source remain separately labelled.
+    """
+    root = Path(__file__).resolve().parents[1]
+    for candidate in sorted((root / "results" / "protocol_runs").glob("*_full*"), reverse=True):
+        manifest_path = candidate / "manifest.json"
+        summary_path = candidate / "optimisers" / "summary.csv"
+        baseline_path = candidate / "baselines" / "baseline_summary.csv"
+        if not (manifest_path.is_file() and summary_path.is_file() and baseline_path.is_file()):
+            continue
+        try:
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            if manifest.get("status") != "PASS" or manifest.get("phase") != "full":
+                continue
+            optimisers = pd.read_csv(summary_path).fillna(0).to_dict(orient="records")
+            baselines = pd.read_csv(baseline_path).fillna(0).to_dict(orient="records")
+            return {"available": True, "source": "new_official_full_run",
+                    "run_id": candidate.name, "optimisation": manifest.get("configuration",{}).get("optimisation","features"), "optimisers": optimisers, "baselines": baselines}
+        except (OSError, ValueError, KeyError):
+            continue
+    return {"available": False, "source": "no_verified_full_run",
+            "run_id": None, "optimisers": [], "baselines": []}

@@ -22,8 +22,17 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return response.json() as Promise<T>
 }
 
+export type ExperimentResults = {
+  available: boolean
+  source: 'new_official_full_run' | 'no_verified_full_run'
+  run_id: string | null
+  optimisers: Array<{ method: string; macro_f1_mean: number; mean_features: number; mean_reduction_pct: number }>
+  baselines: Array<{ model: string; macro_f1_mean: number }>
+}
+
 export const api = {
   health: () => request<{ status: string; service: string }>('/api/health'),
+  experimentResults: () => request<ExperimentResults>('/api/experiment-results'),
   connections: () => request<ApiConnection[]>('/api/connections'),
   replayCsv: (csvText: string) => request<{ rows: ReplayRecord[]; count: number }>('/api/replay', {
     method: 'POST',

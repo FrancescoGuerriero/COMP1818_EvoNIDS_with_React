@@ -1,0 +1,92 @@
+name: Windows verification and full experiments
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      run_full:
+        description: 'Run complete UNSW-NB15 experiments (five seeds, all optimisers)'
+        required: true
+        type: boolean
+        default: false
+      optimisation:
+        description: 'Search mode'
+        required: true
+        type: choice
+        options: [features, joint]
+        default: joint
+
+permissions:
+  contents: read
+
+jobs:
+  windows-smoke:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Run complete Python test suite
+        run: python -m pytest -q research/tests prototype/tests
+      - name: Verify prototype and evolutionary smoke test
+        run: python tools/run_protocol.py --phase smoke --optimisation joint --monitor
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm install --no-audit
+      - name: Build React production bundle
+        working-directory: frontend
+        run: npm run build
+      - name: Upload smoke-test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-smoke-${{ github.run_number }}
+          path: results/protocol_runs/
+          if-no-files-found: ignore
+          retention-days: 14
+
+  windows-full:
+    if: github.event_name == 'workflow_dispatch' && inputs.run_full
+    runs-on: windows-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [42, 101, 202, 303, 404]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Download academic dataset from public mirror
+        shell: bash
+        run: |
+          mkdir -p data/raw
+          curl.exe --fail --location --retry 3 -o data/raw/UNSW_NB15_training-set.csv "https://raw.githubusercontent.com/jamshaid120/UNSW_NB15-Complete-dataset/main/UNSW_NB15_training-set.csv"
+          curl.exe --fail --location --retry 3 -o data/raw/UNSW_NB15_testing-set.csv "https://raw.githubusercontent.com/jamshaid120/UNSW_NB15-Complete-dataset/main/UNSW_NB15_testing-set.csv"
+          python -c "import pandas as pd; a=pd.read_csv('data/raw/UNSW_NB15_training-set.csv'); b=pd.read_csv('data/raw/UNSW_NB15_testing-set.csv'); assert len(a)==175341 and len(b)==82332, (len(a),len(b))"
+      - name: Run all algorithms for this seed with 300 unique evaluations
+        shell: bash
+        run: |
+          python tools/run_protocol.py --phase full --optimisation "${{ inputs.optimisation }}" --train data/raw/UNSW_NB15_training-set.csv --test data/raw/UNSW_NB15_testing-set.csv --seeds ${{ matrix.seed }} --budget 300 --population 8 --search-train-size 20000 --search-valid-size 8000
+      - name: Upload experiment evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-full-${{ inputs.optimisation }}-seed-${{ matrix.seed }}-${{ github.run_number }}
+          path: results/protocol_runs/
+          if-no-files-found: ignore
+          retention-days: 30

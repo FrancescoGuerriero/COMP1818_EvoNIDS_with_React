@@ -11,12 +11,6 @@ on:
         required: true
         type: boolean
         default: false
-      optimisation:
-        description: 'Search mode'
-        required: true
-        type: choice
-        options: [features, joint]
-        default: joint
 
 permissions:
   contents: read
@@ -56,13 +50,14 @@ jobs:
           retention-days: 14
 
   windows-full:
-    if: github.event_name == 'workflow_dispatch' && inputs.run_full
+    if: (github.event_name == 'workflow_dispatch' && inputs.run_full) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[run-full]'))
     runs-on: windows-latest
     timeout-minutes: 350
     strategy:
       fail-fast: false
       matrix:
         seed: [42, 101, 202, 303, 404]
+        optimisation: [features, joint]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -81,12 +76,12 @@ jobs:
       - name: Run all algorithms for this seed with 300 unique evaluations
         shell: bash
         run: |
-          python tools/run_protocol.py --phase full --optimisation "${{ inputs.optimisation }}" --train data/raw/UNSW_NB15_training-set.csv --test data/raw/UNSW_NB15_testing-set.csv --seeds ${{ matrix.seed }} --budget 300 --population 8 --search-train-size 20000 --search-valid-size 8000
+          python tools/run_protocol.py --phase full --optimisation "${{ matrix.optimisation }}" --train data/raw/UNSW_NB15_training-set.csv --test data/raw/UNSW_NB15_testing-set.csv --seeds ${{ matrix.seed }} --budget 300 --population 8 --search-train-size 20000 --search-valid-size 8000
       - name: Upload experiment evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: windows-full-${{ inputs.optimisation }}-seed-${{ matrix.seed }}-${{ github.run_number }}
+          name: windows-full-${{ matrix.optimisation }}-seed-${{ matrix.seed }}-${{ github.run_number }}
           path: results/protocol_runs/
           if-no-files-found: ignore
           retention-days: 30

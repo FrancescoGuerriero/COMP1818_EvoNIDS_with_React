@@ -74,7 +74,7 @@ data/raw/UNSW_NB15_testing-set.csv
 
 Binary target: `label`.
 
-The identifier `id` and multiclass attack category `attack_cat` are excluded from the binary predictor set, leaving **42 raw predictors**.
+The identifier `id` and multiclass attack category `attack_cat` are excluded from the binary predictor set, leaving 42 raw predictors.
 
 The raw dataset is intentionally not bundled in this repository package. Download it from the official source and place the two CSV files under `data/raw/`.
 

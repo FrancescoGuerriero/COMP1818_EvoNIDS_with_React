@@ -1,0 +1,114 @@
+{
+  "started_utc": "20261115T183159Z",
+  "phase": "smoke",
+  "configuration": {
+    "phase": "smoke",
+    "optimisation": "joint",
+    "train": "data/raw/UNSW_NB15_training-set.csv",
+    "test": "data/raw/UNSW_NB15_testing-set.csv",
+    "seeds": [
+      42,
+      101,
+      202,
+      303,
+      404
+    ],
+    "budget": 300,
+    "population": 8,
+    "search_train_size": 20000,
+    "search_valid_size": 8000,
+    "monitor": false
+  },
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "python_executable": "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\.venv\\Scripts\\python.exe",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "working_root": "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission",
+  "git_commit": "2bfaca4a9e4f64af2c2b334139fea05838ac2271",
+  "dependencies": {
+    "numpy": "2.5.4",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "xgboost": "3.4.1",
+    "pytest": "9.2.0",
+    "fastapi": "0.162.7",
+    "uvicorn": "0.54.0",
+    "psutil": "7.2.2",
+    "joblib": "1.6.0"
+  },
+  "inputs": {},
+  "steps": [
+    {
+      "step": "unit_tests",
+      "command": [
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "research/tests",
+        "prototype/tests"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.48,
+      "log": "results\\protocol_runs\\20261115T183159Z_smoke_joint\\logs\\unit_tests.log"
+    },
+    {
+      "step": "synthetic_evolutionary_smoke",
+      "command": [
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\.venv\\Scripts\\python.exe",
+        "-m",
+        "research.src.run_experiments",
+        "--synthetic-smoke",
+        "--mode",
+        "quick",
+        "--optimisation",
+        "joint",
+        "--output-dir",
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\results\\protocol_runs\\20261115T183159Z_smoke_joint\\synthetic_search"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.67,
+      "log": "results\\protocol_runs\\20261115T183159Z_smoke_joint\\logs\\synthetic_evolutionary_smoke.log"
+    },
+    {
+      "step": "demo_model",
+      "command": [
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\.venv\\Scripts\\python.exe",
+        "-m",
+        "prototype.train_demo_model",
+        "--output",
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\results\\protocol_runs\\20261115T183159Z_smoke_joint\\demo_pipeline.joblib",
+        "--csv-output",
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\results\\protocol_runs\\20261115T183159Z_smoke_joint\\demo_rows.csv"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.45,
+      "log": "results\\protocol_runs\\20261115T183159Z_smoke_joint\\logs\\demo_model.log"
+    },
+    {
+      "step": "demo_replay",
+      "command": [
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\.venv\\Scripts\\python.exe",
+        "-m",
+        "prototype.windows_ids",
+        "replay",
+        "--csv",
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\results\\protocol_runs\\20261115T183159Z_smoke_joint\\demo_rows.csv",
+        "--model",
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\results\\protocol_runs\\20261115T183159Z_smoke_joint\\demo_pipeline.joblib",
+        "--output",
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\results\\protocol_runs\\20261115T183159Z_smoke_joint\\demo_scored.csv"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.61,
+      "log": "results\\protocol_runs\\20261115T183159Z_smoke_joint\\logs\\demo_replay.log"
+    }
+  ],
+  "status": "PASS",
+  "source_sha256": {
+    "research/src/run_experiments.py": "23bd0013ebee007e480d3df31031aa58b41c8ea5475e836eafa29b314f532fff",
+    "research/src/evolution/budgeted.py": "7557c6d48b36a4c94c390efd6426cfad0471ea5581ae9926a700e531e05e1795",
+    "research/src/run_baselines.py": "ba1c03a771e41fd860290327b7364e15a1c4655c5ba1ff613649955bc886019d"
+  },
+  "finished_utc": "2026-11-15T18:32:15.145116+00:00"
+}

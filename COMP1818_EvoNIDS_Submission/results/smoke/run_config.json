@@ -1,0 +1,25 @@
+{
+  "mode": "quick",
+  "train": "data/raw/UNSW_NB15_training-set.csv",
+  "test": "data/raw/UNSW_NB15_testing-set.csv",
+  "synthetic_smoke": true,
+  "methods": [
+    "GA",
+    "BPSO",
+    "PSO",
+    "NSGA-II"
+  ],
+  "seeds": null,
+  "budget": null,
+  "population": null,
+  "search_train_size": null,
+  "search_valid_size": null,
+  "search_trees": null,
+  "final_trees": null,
+  "output_dir": "results/smoke",
+  "seed_list": [
+    42
+  ],
+  "budget_used": 12,
+  "source": "SYNTHETIC SMOKE ONLY"
+}

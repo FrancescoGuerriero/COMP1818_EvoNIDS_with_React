@@ -1,0 +1,13 @@
+macro_f1_validation,n_features,features,rf_hyperparameters
+0.9486208172773387,21,"[""dur"", ""dpkts"", ""sbytes"", ""dbytes"", ""rate"", ""sttl"", ""dwin"", ""synack"", ""smean"", ""trans_depth"", ""response_body_len"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_src_dport_ltm"", ""ct_dst_src_ltm"", ""is_ftp_login"", ""ct_ftp_cmd"", ""ct_flw_http_mthd"", ""ct_src_ltm"", ""ct_srv_dst"", ""is_sm_ips_ports""]",{}
+0.9483355499661712,17,"[""dur"", ""dpkts"", ""sbytes"", ""dbytes"", ""sttl"", ""dwin"", ""response_body_len"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_src_dport_ltm"", ""ct_dst_src_ltm"", ""is_ftp_login"", ""ct_ftp_cmd"", ""ct_flw_http_mthd"", ""ct_src_ltm"", ""ct_srv_dst"", ""is_sm_ips_ports""]",{}
+0.9474222404538459,15,"[""dur"", ""dpkts"", ""sbytes"", ""dbytes"", ""sttl"", ""dwin"", ""synack"", ""smean"", ""dmean"", ""trans_depth"", ""ct_state_ttl"", ""ct_dst_sport_ltm"", ""ct_dst_src_ltm"", ""ct_ftp_cmd"", ""ct_src_ltm""]",{}
+0.9462750187942401,14,"[""dur"", ""dpkts"", ""dbytes"", ""sttl"", ""dwin"", ""synack"", ""smean"", ""dmean"", ""trans_depth"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_sport_ltm"", ""ct_dst_src_ltm"", ""ct_src_ltm""]",{}
+0.9447706158857059,12,"[""service"", ""state"", ""sbytes"", ""dbytes"", ""dttl"", ""dloss"", ""sinpkt"", ""dwin"", ""smean"", ""ct_src_dport_ltm"", ""ct_ftp_cmd"", ""ct_srv_dst""]",{}
+0.9387167836733943,7,"[""dur"", ""sbytes"", ""sttl"", ""sinpkt"", ""ct_ftp_cmd"", ""ct_src_ltm"", ""ct_srv_dst""]",{}
+0.9434754138198747,9,"[""dur"", ""sbytes"", ""dbytes"", ""sttl"", ""sloss"", ""dloss"", ""ct_ftp_cmd"", ""ct_src_ltm"", ""ct_srv_dst""]",{}
+0.9410844808721766,8,"[""dur"", ""sbytes"", ""sttl"", ""sinpkt"", ""dwin"", ""response_body_len"", ""ct_dst_src_ltm"", ""ct_src_ltm""]",{}
+0.9441877716168688,10,"[""dur"", ""sbytes"", ""dbytes"", ""sttl"", ""sloss"", ""dloss"", ""sinpkt"", ""ct_ftp_cmd"", ""ct_src_ltm"", ""ct_srv_dst""]",{}
+0.9205620982202649,6,"[""dur"", ""sttl"", ""sinpkt"", ""ct_ftp_cmd"", ""ct_src_ltm"", ""ct_srv_dst""]",{}
+0.944333368561009,11,"[""dur"", ""proto"", ""sbytes"", ""dbytes"", ""sttl"", ""sinpkt"", ""sjit"", ""ct_dst_sport_ltm"", ""ct_ftp_cmd"", ""ct_src_ltm"", ""ct_srv_dst""]",{}
+0.944991123231272,13,"[""service"", ""state"", ""sbytes"", ""dbytes"", ""dttl"", ""dloss"", ""sinpkt"", ""dwin"", ""smean"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_ftp_cmd"", ""ct_srv_dst""]",{}

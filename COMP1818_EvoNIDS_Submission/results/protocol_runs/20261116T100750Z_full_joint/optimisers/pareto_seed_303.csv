@@ -1,0 +1,11 @@
+macro_f1_validation,n_features,features,rf_hyperparameters
+0.9435592539237065,9,"[""sttl"", ""dloss"", ""sinpkt"", ""smean"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_dst_src_ltm""]",{}
+0.9423486481838055,8,"[""dloss"", ""sinpkt"", ""smean"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_dst_src_ltm"", ""ct_src_ltm""]",{}
+0.9505450119160597,17,"[""service"", ""sttl"", ""dloss"", ""sinpkt"", ""swin"", ""dtcpb"", ""smean"", ""dmean"", ""trans_depth"", ""response_body_len"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_dst_sport_ltm"", ""ct_dst_src_ltm"", ""ct_srv_dst""]",{}
+0.9497819287512972,14,"[""sttl"", ""sinpkt"", ""dtcpb"", ""ackdat"", ""smean"", ""dmean"", ""trans_depth"", ""response_body_len"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_dst_src_ltm"", ""ct_srv_dst""]",{}
+0.9473996660856903,13,"[""service"", ""sttl"", ""dloss"", ""sinpkt"", ""swin"", ""dtcpb"", ""smean"", ""dmean"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_dst_src_ltm"", ""ct_srv_dst""]",{}
+0.9397216640575407,7,"[""dloss"", ""sinpkt"", ""smean"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_dst_src_ltm""]",{}
+0.9352680353268166,6,"[""dloss"", ""sinpkt"", ""smean"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_dst_src_ltm""]",{}
+0.9458579759163538,11,"[""sinpkt"", ""ackdat"", ""smean"", ""dmean"", ""trans_depth"", ""response_body_len"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_srv_dst""]",{}
+0.9445372835530835,10,"[""service"", ""sloss"", ""sinpkt"", ""swin"", ""smean"", ""dmean"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_srv_dst""]",{}
+0.9324090635384537,5,"[""sinpkt"", ""smean"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_src_ltm""]",{}

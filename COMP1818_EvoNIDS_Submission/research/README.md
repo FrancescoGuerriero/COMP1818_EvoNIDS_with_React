@@ -1,20 +1,17 @@
-# Canonical research source
+# Research implementation
 
-This release-support package was generated outside the user's Windows development machine, so it does not invent replacements for canonical experiment files that exist only in the local project.
+- `src/run_experiments.py`: four feature-selection methods, optionally joint with Random Forest hyperparameters.
+- `src/evolution/budgeted.py`: evaluation-budget accounting, candidate encoding and search operators.
+- `src/run_baselines.py`: Dummy, Logistic Regression, full-feature Random Forest and XGBoost.
+- `tests/`: unit, budget, joint optimisation and protocol checks.
 
-Before the final GitHub push, run `tools/package_existing_project.py` **from the canonical EvoNIDS project root**. The script copies the real `research/` implementation, tests and result directories into the clean submission folder while excluding caches and machine-specific files.
+Start at the repository root:
 
-Expected canonical modules include:
+```bash
+python -m pytest -q research/tests prototype/tests
+python tools/run_protocol.py --phase smoke --optimisation joint
+```
 
-- `research/src/run_fair_budget_suite.py`
-- `research/src/run_nsga2_suite.py`
-- `research/src/run_full_feature_baselines.py`
-- `research/src/analyse_final_results.py`
-- `research/src/statistical_analysis.py`
-- `research/src/build_final_report_tables.py`
-- `research/src/evaluate_feature_subset.py`
-- `research/src/models/`
-- `research/src/utils/`
-- `research/tests/`
+Run official UNSW-NB15 experiments only after downloading the two CSVs per `data/README.md`.
 
-The final GitHub repository should contain those actual files, not reconstructed approximations.
+An exact historical-source-equivalence claim requires the original implementation and configuration; similarity of summary metrics is not proof of equivalence.

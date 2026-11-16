@@ -1,0 +1,12 @@
+macro_f1_validation,n_features,features,rf_hyperparameters
+0.9400727272727273,14,"[""proto"", ""service"", ""dbytes"", ""sttl"", ""sinpkt"", ""dinpkt"", ""tcprtt"", ""ackdat"", ""smean"", ""dmean"", ""response_body_len"", ""ct_srv_src"", ""ct_src_dport_ltm"", ""ct_srv_dst""]",{}
+0.939946916636778,13,"[""proto"", ""service"", ""dpkts"", ""sbytes"", ""sttl"", ""sinpkt"", ""djit"", ""synack"", ""smean"", ""dmean"", ""ct_srv_src"", ""ct_src_dport_ltm"", ""ct_srv_dst""]",{}
+0.9364410482777907,8,"[""dpkts"", ""sttl"", ""dloss"", ""djit"", ""stcpb"", ""synack"", ""smean"", ""ct_srv_src""]",{}
+0.935449344559268,7,"[""sttl"", ""sloss"", ""djit"", ""stcpb"", ""synack"", ""smean"", ""ct_srv_src""]",{}
+0.9367604113793258,9,"[""sttl"", ""sloss"", ""swin"", ""synack"", ""smean"", ""dmean"", ""ct_srv_src"", ""ct_src_dport_ltm"", ""ct_srv_dst""]",{}
+0.9281145878358938,5,"[""sttl"", ""stcpb"", ""synack"", ""smean"", ""ct_srv_src""]",{}
+0.9384743927593067,11,"[""sttl"", ""tcprtt"", ""smean"", ""dmean"", ""response_body_len"", ""ct_srv_src"", ""ct_src_dport_ltm"", ""is_ftp_login"", ""ct_flw_http_mthd"", ""ct_src_ltm"", ""ct_srv_dst""]",{}
+0.9379608724440749,10,"[""dbytes"", ""sttl"", ""sloss"", ""sinpkt"", ""swin"", ""smean"", ""dmean"", ""ct_srv_src"", ""ct_src_dport_ltm"", ""ct_srv_dst""]",{}
+0.933305909776498,6,"[""sttl"", ""sloss"", ""djit"", ""stcpb"", ""smean"", ""ct_srv_src""]",{}
+0.943399648805006,20,"[""proto"", ""service"", ""spkts"", ""dpkts"", ""dbytes"", ""sttl"", ""dttl"", ""sloss"", ""sinpkt"", ""dinpkt"", ""tcprtt"", ""ackdat"", ""smean"", ""dmean"", ""response_body_len"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_src_dport_ltm"", ""is_ftp_login"", ""ct_srv_dst""]",{}
+0.9418054805998022,15,"[""service"", ""spkts"", ""dbytes"", ""sttl"", ""dttl"", ""sloss"", ""sinpkt"", ""dinpkt"", ""tcprtt"", ""synack"", ""smean"", ""ct_srv_src"", ""ct_src_dport_ltm"", ""is_ftp_login"", ""ct_srv_dst""]",{}

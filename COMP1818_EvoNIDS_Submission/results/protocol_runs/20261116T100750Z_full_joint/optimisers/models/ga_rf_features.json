@@ -1,0 +1,13 @@
+[
+  "service",
+  "sttl",
+  "dload",
+  "sloss",
+  "djit",
+  "tcprtt",
+  "smean",
+  "ct_srv_src",
+  "ct_state_ttl",
+  "ct_src_dport_ltm",
+  "ct_srv_dst"
+]

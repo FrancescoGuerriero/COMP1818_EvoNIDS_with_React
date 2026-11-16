@@ -1,0 +1,5 @@
+method,seed,fitness_evaluations,validation_macro_f1,selected_features,feature_reduction_pct,selected_feature_names,optimisation_seconds,macro_f1,balanced_accuracy,false_positive_rate,confusion_matrix
+GA,42,12,0.8819444444444444,6,33.333333333333336,"[""feature_0"", ""feature_1"", ""feature_2"", ""feature_3"", ""feature_6"", ""feature_7""]",0.43534950001048855,0.8523886205045625,0.853299856527977,0.14705882352941177,"[[29, 5], [6, 35]]"
+BPSO,42,12,0.9403508771929825,5,44.44444444444444,"[""feature_0"", ""feature_2"", ""feature_4"", ""feature_5"", ""feature_7""]",0.39570530000492,0.8125,0.8142037302725968,0.17647058823529413,"[[28, 6], [8, 33]]"
+PSO,42,12,0.9403508771929825,6,33.333333333333336,"[""feature_0"", ""feature_1"", ""feature_2"", ""feature_3"", ""feature_4"", ""feature_6""]",0.4114479999989271,0.8792270531400965,0.8802008608321377,0.11764705882352941,"[[30, 4], [5, 36]]"
+NSGA-II,42,12,0.5824561403508772,1,88.88888888888889,"[""proto""]",0.4421742999984417,0.4796299590820139,0.4817073170731707,0.5,"[[17, 17], [22, 19]]"

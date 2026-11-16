@@ -1,0 +1,14 @@
+macro_f1_validation,n_features,features,rf_hyperparameters
+0.9391334895039853,11,"[""spkts"", ""sbytes"", ""dbytes"", ""rate"", ""swin"", ""dtcpb"", ""synack"", ""smean"", ""trans_depth"", ""ct_srv_src"", ""ct_dst_ltm""]",{}
+0.9402064598024071,14,"[""proto"", ""spkts"", ""dbytes"", ""dinpkt"", ""dtcpb"", ""smean"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_dst_sport_ltm"", ""is_ftp_login"", ""ct_ftp_cmd"", ""ct_srv_dst""]",{}
+0.9411074424740705,19,"[""spkts"", ""dpkts"", ""sbytes"", ""dbytes"", ""rate"", ""stcpb"", ""dtcpb"", ""dwin"", ""synack"", ""smean"", ""trans_depth"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_dst_src_ltm"", ""is_ftp_login"", ""ct_ftp_cmd"", ""ct_srv_dst""]",{}
+0.9406156368197898,18,"[""service"", ""spkts"", ""dpkts"", ""sbytes"", ""dbytes"", ""sjit"", ""stcpb"", ""dtcpb"", ""synack"", ""smean"", ""trans_depth"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_src_dport_ltm"", ""ct_dst_sport_ltm"", ""is_ftp_login"", ""ct_ftp_cmd"", ""ct_srv_dst""]",{}
+0.9400275337094781,13,"[""proto"", ""spkts"", ""dbytes"", ""dinpkt"", ""dtcpb"", ""smean"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""is_ftp_login"", ""ct_ftp_cmd"", ""ct_srv_dst""]",{}
+0.9336873271877209,7,"[""sbytes"", ""dbytes"", ""sttl"", ""trans_depth"", ""ct_srv_src"", ""ct_dst_ltm"", ""ct_src_ltm""]",{}
+0.941256235405846,21,"[""proto"", ""spkts"", ""dpkts"", ""sbytes"", ""dbytes"", ""rate"", ""stcpb"", ""dtcpb"", ""dwin"", ""synack"", ""smean"", ""trans_depth"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_dst_src_ltm"", ""is_ftp_login"", ""ct_ftp_cmd"", ""ct_src_ltm"", ""ct_srv_dst""]",{}
+0.9399338243088722,12,"[""proto"", ""dpkts"", ""sbytes"", ""dbytes"", ""rate"", ""synack"", ""smean"", ""trans_depth"", ""ct_srv_src"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_flw_http_mthd""]",{}
+0.9405572037238736,16,"[""sbytes"", ""dbytes"", ""sttl"", ""dtcpb"", ""dwin"", ""smean"", ""trans_depth"", ""ct_srv_src"", ""ct_state_ttl"", ""ct_dst_ltm"", ""ct_src_dport_ltm"", ""ct_dst_src_ltm"", ""is_ftp_login"", ""ct_ftp_cmd"", ""ct_src_ltm"", ""ct_srv_dst""]",{}
+0.9289886371835789,6,"[""sbytes"", ""synack"", ""smean"", ""trans_depth"", ""ct_srv_src"", ""ct_dst_ltm""]",{}
+0.9093547891322202,5,"[""dwin"", ""synack"", ""smean"", ""trans_depth"", ""ct_dst_ltm""]",{}
+0.9360124508504214,8,"[""sbytes"", ""dbytes"", ""sttl"", ""trans_depth"", ""ct_srv_src"", ""ct_dst_ltm"", ""ct_src_ltm"", ""ct_srv_dst""]",{}
+0.9380724929271481,10,"[""spkts"", ""sbytes"", ""dbytes"", ""rate"", ""sttl"", ""djit"", ""trans_depth"", ""ct_dst_ltm"", ""ct_src_ltm"", ""ct_srv_dst""]",{}

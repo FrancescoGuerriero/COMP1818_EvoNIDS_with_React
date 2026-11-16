@@ -1,0 +1,54 @@
+{
+  "mode": "quick",
+  "optimisation": "joint",
+  "train": "data/raw/UNSW_NB15_training-set.csv",
+  "test": "data/raw/UNSW_NB15_testing-set.csv",
+  "synthetic_smoke": true,
+  "methods": [
+    "GA",
+    "BPSO",
+    "PSO",
+    "NSGA-II"
+  ],
+  "seeds": null,
+  "budget": null,
+  "population": null,
+  "search_train_size": null,
+  "search_valid_size": null,
+  "search_trees": null,
+  "final_trees": null,
+  "output_dir": "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\results\\protocol_runs\\20261115T183159Z_smoke_joint\\synthetic_search",
+  "seed_list": [
+    42
+  ],
+  "budget_used": 12,
+  "source": "SYNTHETIC SMOKE ONLY",
+  "hpo_options": {
+    "n_estimators": [
+      40,
+      80,
+      120,
+      200
+    ],
+    "max_depth": [
+      null,
+      12,
+      24,
+      36
+    ],
+    "min_samples_leaf": [
+      1,
+      2,
+      4,
+      8
+    ],
+    "max_features": [
+      "sqrt",
+      "log2",
+      0.5,
+      1.0
+    ]
+  },
+  "fitness_charge_unit": "distinct (mask, RF parameters)",
+  "historical_equivalence": "NOT_VERIFIED"
+}

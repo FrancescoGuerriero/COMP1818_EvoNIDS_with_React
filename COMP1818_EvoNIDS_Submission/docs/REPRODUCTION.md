@@ -51,7 +51,7 @@ data/raw/UNSW_NB15_testing-set.csv
 
 ## 5. Full reproduction
 
-Run the experiment commands documented in the root `README.md` after the canonical `research/` source has been copied into the repository.
+Run the experiment commands documented in this directory's `README.md`. The `research/` source and `tools/` runner are already included in this GitHub repository. The full UNSW-NB15 experiments require the two separately obtained official CSV files. A dataset-free clean Windows test is automated under `.github/workflows/evonids-windows-reproducibility.yml` in the GitHub repository root.
 
 ## Clean-room release test status
 
@@ -63,4 +63,4 @@ The generated submission-support package is tested in a fresh virtual environmen
 - CSV replay scoring;
 - passive connection-monitor execution.
 
-The full 5-seed, 300-evaluation research suite is not re-executed in the release clean room because the original UNSW-NB15 dataset and canonical local research source are not available inside the ChatGPT execution container. The submitted GitHub repository must contain those canonical local files before final delivery.
+The full 5-seed, 300-evaluation UNSW-NB15 searches are recorded in `results/protocol_runs/20261115T183225Z_full/` (feature-only) and `results/protocol_runs/20261116T151402Z_full_joint/` (corrected joint). The invalid 16 November 10:07 UTC joint-labelled run accidentally selected feature-only mode and must not support joint-HPO claims. The dataset-free Windows CI checks code/tests, synthetic joint-mode wiring and recomputation of paired statistics from the published CSVs; it does **not** independently rerun all UNSW-NB15 optimisations. Large trained-model files are excluded from Git.

@@ -8,9 +8,9 @@ This project evaluates Genetic Algorithm (GA), Binary Particle Swarm Optimisatio
 
 The final controlled comparison uses five seeds (`42, 101, 202, 303, 404`) and an equal budget of 300 unique expensive fitness evaluations per optimiser per seed. Random Forest is used as the wrapper classifier. Full-feature Dummy, Logistic Regression, Random Forest, and XGBoost baselines are also evaluated.
 
-Main result
+Historical study summary (earlier local implementation; not the corrected November 2026 joint experiment)
 
-GA + Random Forest achieved the strongest feature-selection trade-off:
+GA + Random Forest was reported to achieve the strongest feature-selection trade-off in the earlier study:
 
 - Macro-F1: **0.865394 +/- 0.003952**
 - Mean selected raw predictors: **10.2 / 42**
@@ -19,7 +19,7 @@ GA + Random Forest achieved the strongest feature-selection trade-off:
 - Full-feature RF Macro-F1: **0.864225 +/- 0.000689**
 - Full-feature XGBoost Macro-F1: **0.870417 +/- 0.000866** (highest absolute predictive result)
 
-The correct interpretation is that GA provides the strongest accuracy-dimensionality trade-off; XGBoost remains the strongest absolute full-feature classifier.
+These values belong to the earlier study and must not be conflated with the November 2026 reproduced feature-only or corrected joint runs. The later equal-budget comparison and results are listed below.
 
 Repository layout
 
@@ -123,54 +123,55 @@ python tools/verify_submission.py
 
 Full experiment commands
 
-The canonical local project contains the complete research implementation. After the repository is populated from that canonical project, the principal commands are:
+Run from this nested `COMP1818_EvoNIDS_Submission` directory. The research implementation is now checked into the repository. Both commands use the same five seeds and equal 300-unique-candidate budget per method/seed; they write new timestamped result directories and do not overwrite published results.
 
-Full-feature baselines
-
-```bash
-python -m research.src.run_full_feature_baselines \
-  --train data/raw/UNSW_NB15_training-set.csv \
-  --test data/raw/UNSW_NB15_testing-set.csv \
-  --seeds 42 101 202 303 404 \
-  --output-dir results/full_feature_baselines
-```
-
-Equal-budget GA / BPSO / PSO comparison
+Feature-only optimisation and full-feature baselines:
 
 ```bash
-python -m research.src.run_fair_budget_suite \
-  --train data/raw/UNSW_NB15_training-set.csv \
-  --test data/raw/UNSW_NB15_testing-set.csv \
-  --seeds 42 101 202 303 404 \
-  --budget 300 \
-  --population 8 \
-  --search-train-size 20000 \
-  --search-valid-size 8000 \
-  --output-dir results/fair_budget_300
+python tools/run_protocol.py --phase full --optimisation features \\
+  --train data/raw/UNSW_NB15_training-set.csv \\
+  --test data/raw/UNSW_NB15_testing-set.csv \\
+  --seeds 42 101 202 303 404 --budget 300 --population 8 \\
+  --search-train-size 20000 --search-valid-size 8000
 ```
 
-NSGA-II
+Joint feature selection and Random Forest hyperparameter optimisation:
 
 ```bash
-python -m research.src.run_nsga2_suite \
-  --train data/raw/UNSW_NB15_training-set.csv \
-  --test data/raw/UNSW_NB15_testing-set.csv \
-  --seeds 42 101 202 303 404 \
-  --budget 300 \
-  --population 20 \
-  --search-train-size 20000 \
-  --search-valid-size 8000 \
-  --output-dir results/nsga2_300
+python tools/run_protocol.py --phase full --optimisation joint \\
+  --train data/raw/UNSW_NB15_training-set.csv \\
+  --test data/raw/UNSW_NB15_testing-set.csv \\
+  --seeds 42 101 202 303 404 --budget 300 --population 8 \\
+  --search-train-size 20000 --search-valid-size 8000
 ```
 
-Rebuild final analysis
+Synthetic-only verification without UNSW-NB15:
 
 ```bash
-python -m research.src.analyse_final_results
-python -m research.src.statistical_analysis
-python -m research.src.build_final_report_tables
+python -m pytest -q research/tests prototype/tests
+python tools/run_protocol.py --phase smoke --optimisation joint
 ```
 
+Reproduce the published five-seed paired statistics without re-training classifiers:
+
+```bash
+python tools/compare_joint_statistics.py \\
+  results/protocol_runs/20261115T183225Z_full/optimisers/runs.csv \\
+  results/protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv
+```
+
+The corrected joint experiment is recorded under `results/protocol_runs/20261116T151402Z_full_joint/`. The earlier `20261116T100750Z_full_joint/` mistakenly ran feature-only optimisation despite being requested as joint; **do not use it as evidence of RF hyperparameter optimisation**.
+
+### Corrected experiment means (test Macro-F1)
+
+| Method | Feature-only | Joint RF-HPO | Joint mean features |
+|---|---:|---:|---:|
+| GA | 0.861168 | 0.878881 | 9.8 |
+| BPSO | 0.859390 | 0.877153 | 12.6 |
+| PSO | 0.864282 | **0.881373** | 11.4 |
+| NSGA-II | 0.839713 | 0.843918 | 6.0 |
+
+PSO joint mode has the highest *mean* Macro-F1 across the five matched seeds. With n=5, paired t/Wilcoxon statistics are exploratory, not definitive. See `results/statistical_analysis/paired_joint_comparison.csv` and `docs/EXPERIMENT_PROTOCOL.md`.
 
 React frontend
 

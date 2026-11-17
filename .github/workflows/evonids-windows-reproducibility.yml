@@ -1,0 +1,57 @@
+name: EvoNIDS clean Windows reproducibility
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows-reproducibility:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: COMP1818_EvoNIDS_Submission
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: COMP1818_EvoNIDS_Submission/requirements.txt
+
+      - name: Install project dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Run unit and CLI integration tests
+        run: python -m pytest -q research/tests prototype/tests
+
+      - name: Run synthetic joint-mode integration smoke
+        run: |
+          python -m research.src.run_experiments --synthetic-smoke --mode quick --optimisation joint --methods GA --seeds 42 --budget 2 --population 4 --output-dir results/ci_joint_smoke
+          python -c "import json, pandas as pd; d=pd.read_csv('results/ci_joint_smoke/runs.csv'); assert len(d)==1 and d.loc[0,'optimisation']=='joint'; assert json.loads(d.loc[0,'rf_hyperparameters']); assert d.loc[0,'fitness_evaluations']==2"
+
+      - name: Reproduce five-seed paired statistics from published CSVs
+        run: |
+          python tools/compare_joint_statistics.py results/protocol_runs/20261115T183225Z_full/optimisers/runs.csv results/protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv --output results/ci_joint_comparison.csv
+          python -c "import numpy as np, pandas as pd; a=pd.read_csv('results/ci_joint_comparison.csv').sort_values('method').reset_index(drop=True); b=pd.read_csv('results/statistical_analysis/paired_joint_comparison.csv').sort_values('method').reset_index(drop=True); assert a['method'].equals(b['method']); cols=['feature_only_mean','joint_mean','mean_paired_gain','paired_t_p','wilcoxon_p']; assert np.allclose(a[cols].to_numpy(dtype=float),b[cols].to_numpy(dtype=float),rtol=1e-9,atol=1e-10)"
+
+      - name: Upload verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evonids-windows-reproducibility
+          path: |
+            COMP1818_EvoNIDS_Submission/results/ci_joint_smoke/runs.csv
+            COMP1818_EvoNIDS_Submission/results/ci_joint_comparison.csv
+          if-no-files-found: warn

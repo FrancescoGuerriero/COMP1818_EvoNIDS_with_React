@@ -65,3 +65,19 @@ def test_historical_audit_fails_closed():
     modified={**base,'configuration':{'optimisation':'joint'}}
     assert not audit(base,modified)[0]
     assert not audit({'result_mean':.86},modified)[0]
+
+
+def test_joint_cli_dispatch_records_actual_hyperparameters(tmp_path):
+    """CLI integration test: --optimisation joint must reach evaluate_method."""
+    from research.src.run_experiments import main
+    out = tmp_path / "joint_cli"
+    main(["--synthetic-smoke", "--mode", "quick", "--optimisation", "joint",
+          "--methods", "GA", "--seeds", "42", "--budget", "2",
+          "--population", "4", "--output-dir", str(out)])
+    df = pd.read_csv(out / "runs.csv")
+    assert len(df) == 1
+    assert df.loc[0, "optimisation"] == "joint"
+    assert df.loc[0, "unique_candidate_definition"] == "feature mask + RF hyperparameters"
+    params = json.loads(df.loc[0, "rf_hyperparameters"])
+    assert set(params) == set(HPO_OPTIONS)
+    assert df.loc[0, "fitness_evaluations"] == 2

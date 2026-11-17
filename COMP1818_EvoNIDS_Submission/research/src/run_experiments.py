@@ -209,7 +209,7 @@ def main(argv=None):
         for seed in seeds:
             print(f'Running {method}, seed={seed}, budget={budget}',flush=True)
             row=evaluate_method(method,seed,X,y,Xte,yte,budget,search_train_size,
-                  search_valid_size,search_trees,final_trees,out,population)
+                  search_valid_size,search_trees,final_trees,out,population,optimisation=args.optimisation)
             rows.append(row)
             pd.DataFrame(rows).to_csv(out/'runs.csv',index=False)
             print(f'  test Macro-F1={row["macro_f1"]:.5f}; features={row["selected_features"]}; evaluations={row["fitness_evaluations"]}',flush=True)

@@ -1,0 +1,11 @@
+[
+  "sbytes",
+  "sload",
+  "sloss",
+  "smean",
+  "trans_depth",
+  "ct_state_ttl",
+  "ct_src_dport_ltm",
+  "ct_dst_sport_ltm",
+  "ct_srv_dst"
+]

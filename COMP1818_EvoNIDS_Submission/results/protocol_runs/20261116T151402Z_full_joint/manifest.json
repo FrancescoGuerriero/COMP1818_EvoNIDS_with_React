@@ -1,0 +1,137 @@
+{
+  "started_utc": "20261116T151402Z",
+  "phase": "full",
+  "configuration": {
+    "phase": "full",
+    "optimisation": "joint",
+    "train": "data/raw/UNSW_NB15_training-set.csv",
+    "test": "data/raw/UNSW_NB15_testing-set.csv",
+    "seeds": [
+      42,
+      101,
+      202,
+      303,
+      404
+    ],
+    "budget": 300,
+    "population": 8,
+    "search_train_size": 20000,
+    "search_valid_size": 8000,
+    "monitor": false
+  },
+  "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+  "python_executable": "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\.venv\\Scripts\\python.exe",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "working_root": "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission",
+  "git_commit": "ab6d672a205f523c206f1f65b2c29eb13f2130de",
+  "dependencies": {
+    "numpy": "2.5.4",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "xgboost": "3.4.1",
+    "pytest": "9.2.0",
+    "fastapi": "0.162.7",
+    "uvicorn": "0.54.0",
+    "psutil": "7.2.2",
+    "joblib": "1.6.0"
+  },
+  "inputs": {
+    "train": {
+      "path": "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\data\\raw\\UNSW_NB15_training-set.csv",
+      "bytes": 32293018,
+      "sha256": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa"
+    },
+    "test": {
+      "path": "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\data\\raw\\UNSW_NB15_testing-set.csv",
+      "bytes": 15380800,
+      "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559"
+    }
+  },
+  "steps": [
+    {
+      "step": "unit_tests",
+      "command": [
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "research/tests",
+        "prototype/tests"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 7.05,
+      "log": "results\\protocol_runs\\20261116T151402Z_full_joint\\logs\\unit_tests.log"
+    },
+    {
+      "step": "official_baselines",
+      "command": [
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\.venv\\Scripts\\python.exe",
+        "-m",
+        "research.src.run_baselines",
+        "--train",
+        "data/raw/UNSW_NB15_training-set.csv",
+        "--test",
+        "data/raw/UNSW_NB15_testing-set.csv",
+        "--seeds",
+        "42",
+        "101",
+        "202",
+        "303",
+        "404",
+        "--output-dir",
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\results\\protocol_runs\\20261116T151402Z_full_joint\\baselines"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2585.84,
+      "log": "results\\protocol_runs\\20261116T151402Z_full_joint\\logs\\official_baselines.log"
+    },
+    {
+      "step": "official_evolutionary_search",
+      "command": [
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\.venv\\Scripts\\python.exe",
+        "-m",
+        "research.src.run_experiments",
+        "--mode",
+        "full",
+        "--optimisation",
+        "joint",
+        "--train",
+        "data/raw/UNSW_NB15_training-set.csv",
+        "--test",
+        "data/raw/UNSW_NB15_testing-set.csv",
+        "--seeds",
+        "42",
+        "101",
+        "202",
+        "303",
+        "404",
+        "--methods",
+        "GA",
+        "BPSO",
+        "PSO",
+        "NSGA-II",
+        "--budget",
+        "300",
+        "--population",
+        "8",
+        "--search-train-size",
+        "20000",
+        "--search-valid-size",
+        "8000",
+        "--output-dir",
+        "C:\\Users\\Francesco\\CourseWorks\\Comp1818\\COMP1818_EvoNIDS_with_React\\COMP1818_EvoNIDS_Submission\\results\\protocol_runs\\20261116T151402Z_full_joint\\optimisers"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 26695.47,
+      "log": "results\\protocol_runs\\20261116T151402Z_full_joint\\logs\\official_evolutionary_search.log"
+    }
+  ],
+  "status": "PASS",
+  "source_sha256": {
+    "research/src/run_experiments.py": "0c0821cd3ed2ef4088c533f4f8adcb06a00dcff2bae94da52e77b0ea797fd71f",
+    "research/src/evolution/budgeted.py": "7557c6d48b36a4c94c390efd6426cfad0471ea5581ae9926a700e531e05e1795",
+    "research/src/run_baselines.py": "ba1c03a771e41fd860290327b7364e15a1c4655c5ba1ff613649955bc886019d"
+  },
+  "finished_utc": "2026-11-16T23:22:11.786079+00:00"
+}

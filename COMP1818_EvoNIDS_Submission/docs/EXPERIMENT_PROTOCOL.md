@@ -67,7 +67,7 @@ Five matched stochastic seeds are used. Friedman and pairwise Wilcoxon analyses 
 
 ## Current reproduction implementation / scope boundary
 
-`research/src/run_experiments.py` implements **feature-subset optimisation only**. The Random Forest search and final classifiers use fixed tree counts and other fixed hyperparameters. Thus this reconstructed runner must not be described as joint hyperparameter optimisation. It does not establish that these defaults match the historical canonical local experiments.
+`research/src/run_experiments.py` implements **both** feature-only optimisation (`--optimisation features`) and joint feature-mask/Random-Forest hyperparameter optimisation (`--optimisation joint`). The feature-only runs retain fixed RF settings; joint runs evaluate four encoded RF hyperparameters. The original historical canonical experiments are not claimed to be exactly reproduced from aggregate metrics.
 
 A recorded run uses `python tools/run_protocol.py --phase full`. Logs, environment versions, official dataset input hashes, baseline scores and evolutionary scores are stored in a timestamped folder. The historical summary files in `results/` and the coursework PDF are not overwritten. Use `python tools/compare_reproduction.py` to compare a successful rerun descriptively with the historical five-seed means. The React interface reads the most recent **complete, recorded** full run and marks older values as historical when no new full-run result exists.
 
@@ -147,3 +147,14 @@ project, add `--historical-evidence path/to/original_provenance.json`.
 The old five-seed study and new joint HPO study must be reported as separate
 experimental protocols; **joint HPO can never be called configuration-identical
 to a feature-only historical run**.
+
+## Verified November 2026 execution and reproducibility boundary
+
+- Feature-only run: `results/protocol_runs/20261115T183225Z_full/`.
+- Invalid joint-labelled run (missing CLI mode-forwarding argument): `results/protocol_runs/20261116T100750Z_full_joint/`. It recorded `optimisation=features` and empty `rf_hyperparameters` and must **not** be used for joint-RF-HPO comparisons.
+- Corrected joint run: `results/protocol_runs/20261116T151402Z_full_joint/`. Its 20 records show `optimisation=joint`, explicit RF hyperparameters and 300 evaluations each.
+- The corrected forwarder is covered by a CLI integration regression test in `research/tests/test_joint_hpo.py`.
+- Paired seed results are published at `results/statistical_analysis/paired_joint_comparison.csv` and can be reproduced using `tools/compare_joint_statistics.py`.
+- Joint PSO: mean test Macro-F1 `0.881373` (SD `0.008072`); feature-only PSO: `0.864282`; paired gain `0.017091` (95% t CI `[0.006659, 0.027523]`, paired t p=`0.010427`, exact Wilcoxon p=`0.0625`). Five seeds and multiple algorithm comparisons limit inference.
+- The GitHub-hosted Windows CI (root `.github/workflows/evonids-windows-reproducibility.yml`) checks clean installation, tests, synthetic joint-mode wiring, and reproduction of the published paired statistics without the UNSW-NB15 raw CSVs. It does not constitute an independent full dataset-based rerun.
+- Recorded source SHA-256 and dataset SHA-256 in each experiment manifest are the authoritative run provenance; the Git commit alone may not reflect uncommitted local source at execution time.

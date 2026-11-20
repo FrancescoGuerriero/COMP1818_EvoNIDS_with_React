@@ -27,7 +27,7 @@ def test_api_health_and_passive_connections():
 def test_api_replay_requires_a_model(monkeypatch, tmp_path):
     monkeypatch.setenv("EVONIDS_MODEL", str(tmp_path / "absent.joblib"))
     with TestClient(app) as client:
-        response = client.post("/api/replay", content=b"service,sbytes\\nhttp,42\\n",
+        response = client.post("/api/replay", content=b"service,sbytes\nhttp,42\n",
                                headers={"content-type": "text/csv"})
         assert response.status_code == 503
         assert "Model not found" in response.json()["detail"]
@@ -45,7 +45,7 @@ def test_api_synthetic_csv_replay_and_validation(monkeypatch, tmp_path):
         empty = client.post("/api/replay", content=b"")
         assert empty.status_code == 400
 
-        malformed = client.post("/api/replay", content=b"a,b\\n1,2\\n3,4,5\\n")
+        malformed = client.post("/api/replay", content=b"a,b\n1,2\n3,4,5\n")
         assert malformed.status_code in (400, 422)
 
         response = client.post("/api/replay", content=rows.read_bytes(),
@@ -57,6 +57,6 @@ def test_api_synthetic_csv_replay_and_validation(monkeypatch, tmp_path):
         assert all(int(row["ids_prediction"]) in (0, 1) for row in payload["rows"])
         assert all(0 <= float(row["attack_probability"]) <= 1 for row in payload["rows"])
 
-        incomplete = client.post("/api/replay", content=b"service,sbytes\\nhttp,42\\n")
+        incomplete = client.post("/api/replay", content=b"service,sbytes\nhttp,42\n")
         assert incomplete.status_code == 422
         assert "missing model features" in incomplete.json()["detail"]

@@ -1,0 +1,35 @@
+name: Publish EvoNIDS experiment dashboard
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'online-experiments/**'
+      - '.github/workflows/publish-online-experiments.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: evonids-public-research-dashboard
+          path: online-experiments/index.html
+          retention-days: 90
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: online-experiments
+  deploy:
+    needs: publish
+    runs-on: ubuntu-latest
+    environment: github-pages
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - uses: actions/deploy-pages@v4

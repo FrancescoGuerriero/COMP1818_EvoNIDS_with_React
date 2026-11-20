@@ -45,7 +45,7 @@ def test_api_synthetic_csv_replay_and_validation(monkeypatch, tmp_path):
         empty = client.post("/api/replay", content=b"")
         assert empty.status_code == 400
 
-        malformed = client.post("/api/replay", content=b"\\xff\\xfe")
+        malformed = client.post("/api/replay", content=b"a,b\\n1,2\\n3,4,5\\n")
         assert malformed.status_code in (400, 422)
 
         response = client.post("/api/replay", content=rows.read_bytes(),

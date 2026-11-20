@@ -12,10 +12,10 @@ const nav: { id: View; label: string; short: string }[] = [
 ]
 
 const metrics = [
-  { label: 'GA + RF Macro-F1', value: '0.8654', note: '+0.0012 vs full RF' },
-  { label: 'Selected Features', value: '10.2', note: 'of 42 raw predictors' },
-  { label: 'Feature Reduction', value: '75.71%', note: 'GA mean across 5 seeds' },
-  { label: 'False Positive Rate', value: '0.2548', note: '-0.0174 vs full RF' },
+  { label: 'Joint PSO + RF Macro-F1', value: '0.8814', note: 'five-seed mean · corrected joint experiment' },
+  { label: 'Selected Raw Features', value: '11.4', note: 'out of 42 predictors · joint PSO' },
+  { label: 'Feature Reduction', value: '72.86%', note: 'joint PSO mean across 5 seeds' },
+  { label: 'False Positive Rate', value: '0.2197', note: 'joint PSO · UNSW-NB15 held-out test' },
 ]
 
 function Badge({ children, tone = 'neutral' }: { children: React.ReactNode; tone?: 'neutral' | 'good' | 'warn' | 'danger' }) {
@@ -67,7 +67,7 @@ function Overview() {
             <b>→</b>
             <div><span>02</span><strong>Flow features</strong><small>Required integration layer</small></div>
             <b>→</b>
-            <div><span>03</span><strong>GA + RF</strong><small>Normal / attack decision</small></div>
+            <div><span>03</span><strong>RF classifier</strong><small>CSV replay with compatible features</small></div>
           </div>
           <p className="callout">
             Current live Windows socket data is not passed directly into the UNSW-NB15 classifier. Replay mode performs the ML classification using compatible feature schemas.
@@ -78,16 +78,16 @@ function Overview() {
           <div className="panel-heading">
             <div>
               <span className="eyebrow">Best result</span>
-              <h2>GA provides the strongest trade-off</h2>
+              <h2>Joint PSO leads the corrected comparison</h2>
             </div>
           </div>
           <div className="tradeoff">
-            <div className="tradeoff-row"><span>XGBoost</span><div><i style={{ width: '100%' }} /></div><strong>0.8704</strong></div>
-            <div className="tradeoff-row"><span>GA + RF</span><div><i style={{ width: '99.4%' }} /></div><strong>0.8654</strong></div>
-            <div className="tradeoff-row"><span>Full RF</span><div><i style={{ width: '99.3%' }} /></div><strong>0.8642</strong></div>
-            <div className="tradeoff-row"><span>NSGA-II</span><div><i style={{ width: '98.4%' }} /></div><strong>0.8562</strong></div>
+            <div className="tradeoff-row"><span>Joint PSO</span><div><i style={{ width: '100%' }} /></div><strong>0.8814</strong></div>
+            <div className="tradeoff-row"><span>Joint GA</span><div><i style={{ width: '99.7%' }} /></div><strong>0.8789</strong></div>
+            <div className="tradeoff-row"><span>Joint BPSO</span><div><i style={{ width: '99.5%' }} /></div><strong>0.8772</strong></div>
+            <div className="tradeoff-row"><span>Full XGBoost</span><div><i style={{ width: '98.3%' }} /></div><strong>0.8668</strong></div>
           </div>
-          <small className="muted">Macro-F1 on the official UNSW-NB15 test partition.</small>
+          <small className="muted">Five-seed mean test Macro-F1 from the corrected November 2026 experiment; displayed bar lengths are relative to the highest result.</small>
         </article>
       </section>
     </>
@@ -238,8 +238,13 @@ function Replay() {
 
 function Research() {
   const methods = [
-    ['XGBoost', '0.8704', '42', '0%'], ['GA + RF', '0.8654', '10.2', '75.71%'], ['Random Forest', '0.8642', '42', '0%'],
-    ['BPSO + RF', '0.8615', '12.2', '70.95%'], ['PSO + RF', '0.8598', '11.4', '72.86%'], ['NSGA-II + RF', '0.8562', '10.6', '74.76%']
+    ['Joint PSO + RF', '0.8814', '11.4', '72.86%'],
+    ['Joint GA + RF', '0.8789', '9.8', '76.67%'],
+    ['Joint BPSO + RF', '0.8772', '12.6', '70.00%'],
+    ['XGBoost baseline', '0.8668', '42', '0%'],
+    ['Random Forest baseline', '0.8641', '42', '0%'],
+    ['Feature-only PSO + RF', '0.8643', '11.2', '73.33%'],
+    ['Joint NSGA-II + RF', '0.8439', '6.0', '85.71%'],
   ]
   return (
     <section className="card panel">
@@ -249,8 +254,8 @@ function Research() {
           <tbody>{methods.map(([method, f1, features, reduction]) => <tr key={method}><td><strong>{method}</strong></td><td>{f1}</td><td>{features}</td><td>{reduction}</td></tr>)}</tbody></table>
       </div>
       <div className="research-notes">
-        <p><strong>Interpretation.</strong> Full-feature XGBoost achieves the highest absolute Macro-F1. GA + RF gives the strongest feature-selection trade-off, retaining about a quarter of the raw predictors while slightly exceeding full-feature RF.</p>
-        <p><strong>Statistical caution.</strong> Five paired stochastic runs provide limited power. The Friedman test did not establish a significant overall difference, so the dashboard reports descriptive performance rather than claiming statistical superiority.</p>
+        <p><strong>Interpretation.</strong> Corrected joint PSO + RF achieves the highest five-seed mean test Macro-F1 (0.8814), reducing 42 raw predictors to 11.4 on average. Joint NSGA-II selects the fewest features but has lower mean Macro-F1. Feature-only and joint experiments use equal 300-distinct-candidate evaluation budgets per method and seed, not equal computational time.</p>
+        <p><strong>Statistical caution.</strong> For joint versus feature-only PSO, mean paired Macro-F1 gain is 0.0171 (paired t p = 0.0104; exact two-sided Wilcoxon p = 0.0625). Five seeds and multiple comparisons limit claims of statistical significance. These are static published benchmark summaries, not live IDS measurements.</p>
       </div>
     </section>
   )
@@ -270,7 +275,7 @@ export default function App() {
       <main>
         <header className="topbar">
           <div><span className="eyebrow">EvoNIDS control centre</span><h2>{nav.find((item) => item.id === view)?.label}</h2></div>
-          <div className="top-actions"><Badge tone="good">System online</Badge><div className="avatar">FG</div></div>
+          <div className="top-actions"><Badge>Research prototype</Badge><div className="avatar">FG</div></div>
         </header>
         <div className="content">{content}</div>
       </main>

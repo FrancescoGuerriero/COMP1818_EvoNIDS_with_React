@@ -18,7 +18,7 @@ The canonical nested project root is `COMP1818_EvoNIDS_Submission`.
 5. Run:
 
 ```bash
-python tools/check_saved_model_replay.py \
+python -m tools.check_saved_model_replay \
   --model results/protocol_runs/20261116T151402Z_full_joint/optimisers/models/ga_rf_joint_pipeline.joblib \
   --csv data/raw/UNSW_NB15_testing-set.csv \
   --features-json results/protocol_runs/20261116T151402Z_full_joint/optimisers/models/ga_rf_joint_features.json \

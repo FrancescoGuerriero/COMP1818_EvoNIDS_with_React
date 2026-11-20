@@ -39,7 +39,7 @@ jobs:
       - name: Check saved-model replay using synthetic demo data
         run: |
           python -m prototype.train_demo_model --output models/ci_demo_pipeline.joblib --csv-output results/ci_demo_rows.csv
-          python tools/check_saved_model_replay.py --model models/ci_demo_pipeline.joblib --csv results/ci_demo_rows.csv --rows 20
+          python -m tools.check_saved_model_replay --model models/ci_demo_pipeline.joblib --csv results/ci_demo_rows.csv --rows 20
 
       - name: Run synthetic joint-mode integration smoke
         run: |

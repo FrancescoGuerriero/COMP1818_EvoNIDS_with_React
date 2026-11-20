@@ -36,6 +36,11 @@ jobs:
       - name: Run unit and CLI integration tests
         run: python -m pytest -q research/tests prototype/tests
 
+      - name: Check saved-model replay using synthetic demo data
+        run: |
+          python -m prototype.train_demo_model --output models/ci_demo_pipeline.joblib --csv-output results/ci_demo_rows.csv
+          python tools/check_saved_model_replay.py --model models/ci_demo_pipeline.joblib --csv results/ci_demo_rows.csv --rows 20
+
       - name: Run synthetic joint-mode integration smoke
         run: |
           python -m research.src.run_experiments --synthetic-smoke --mode quick --optimisation joint --methods GA --seeds 42 --budget 2 --population 4 --output-dir results/ci_joint_smoke

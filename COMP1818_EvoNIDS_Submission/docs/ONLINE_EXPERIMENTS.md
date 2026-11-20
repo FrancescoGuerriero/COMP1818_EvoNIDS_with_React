@@ -1,6 +1,12 @@
 # EvoNIDS — Lecturer's online experiments
 
-**Online graphical results:** https://francescoguerriero.github.io/COMP1818_EvoNIDS_with_React/
+**View the graphics directly on GitHub (works even without GitHub Pages):**
+
+![Macro-F1 graph](../../online-experiments/figure_macro_f1.svg)
+
+![Feature reduction graph](../../online-experiments/figure_feature_reduction.svg)
+
+**Optional public Pages website (requires the repo owner to enable Pages once):** https://francescoguerriero.github.io/COMP1818_EvoNIDS_with_React/
 
 All experiment evidence is public on GitHub without installing the project or having access to the student's locally saved model. If GitHub Pages needs enabling, the primary CSV links below remain accessible.
 

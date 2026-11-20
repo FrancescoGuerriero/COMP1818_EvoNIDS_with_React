@@ -21,8 +21,23 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: online-experiments
+  check-pages:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+      - id: check
+        shell: bash
+        run: |
+          if curl -fsS https://api.github.com/repos/$GITHUB_REPOSITORY/pages >/dev/null; then
+            echo 'enabled=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'enabled=false' >> "$GITHUB_OUTPUT"
+            echo 'GitHub Pages is not enabled; the HTML artifact and GitHub README graphs remain public.'
+          fi
   deploy:
-    needs: publish
+    needs: [publish, check-pages]
+    if: needs.check-pages.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     environment: github-pages
     permissions:
@@ -30,6 +45,4 @@ jobs:
       id-token: write
     steps:
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/deploy-pages@v4

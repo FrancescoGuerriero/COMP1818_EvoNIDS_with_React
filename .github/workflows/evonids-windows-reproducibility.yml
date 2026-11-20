@@ -55,3 +55,35 @@ jobs:
             COMP1818_EvoNIDS_Submission/results/ci_joint_smoke/runs.csv
             COMP1818_EvoNIDS_Submission/results/ci_joint_comparison.csv
           if-no-files-found: warn
+
+  frontend-build:
+    name: React clean install and production build (Windows)
+    runs-on: windows-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: COMP1818_EvoNIDS_Submission/frontend
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: COMP1818_EvoNIDS_Submission/frontend/package-lock.json
+
+      - name: Install locked frontend dependencies
+        run: npm ci
+
+      - name: Compile TypeScript and build Vite production bundle
+        run: npm run build
+
+      - name: Upload built frontend
+        uses: actions/upload-artifact@v4
+        with:
+          name: evonids-react-build
+          path: COMP1818_EvoNIDS_Submission/frontend/dist
+          if-no-files-found: error

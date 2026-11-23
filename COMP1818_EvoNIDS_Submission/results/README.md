@@ -15,9 +15,9 @@ The numbers are five-seed **held-out test** means rounded from the committed `su
 
 | Experiment family | Exact folder | Role |
 |---|---|---|
-| Feature-only official run | [`results/protocol_runs/20261115T183225Z_full`](results/protocol_runs/20261115T183225Z_full/optimisers/runs.csv) | Valid, 20 algorithm/seed records; feature masks only |
-| Corrected joint official run | [`results/protocol_runs/20261116T151402Z_full_joint`](results/protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv) | Valid, 20 records; mask plus four RF hyperparameters |
-| Incorrectly labelled 'joint' | [`results/protocol_runs/20261116T100750Z_full_joint`](results/protocol_runs/20261116T100750Z_full_joint/optimisers/run_config.json) | **Excluded** from joint-HPO analysis; underlying mode was `features` |
+| Feature-only official run | [`results/protocol_runs/20261115T183225Z_full`](protocol_runs/20261115T183225Z_full/optimisers/runs.csv) | Valid, 20 algorithm/seed records; feature masks only |
+| Corrected joint official run | [`results/protocol_runs/20261116T151402Z_full_joint`](protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv) | Valid, 20 records; mask plus four RF hyperparameters |
+| Incorrectly labelled 'joint' | [`results/protocol_runs/20261116T100750Z_full_joint`](protocol_runs/20261116T100750Z_full_joint/optimisers/run_config.json) | **Excluded** from joint-HPO analysis; underlying mode was `features` |
 | Earlier historical study | [`final_summary.csv`](final_summary.csv) | Distinct older GA-leading experiment, not corrected 2026 joint study |
 | Synthetic smoke runs | [`smoke/`](smoke/run_config.json), [`joint_fix_smoke/`](joint_fix_smoke/run_config.json), [`protocol_runs/20261115T183159Z_smoke_joint/`](protocol_runs/20261115T183159Z_smoke_joint/manifest.json) | Software integration only, not benchmark performance |
 
@@ -25,19 +25,19 @@ The numbers are five-seed **held-out test** means rounded from the committed `su
 
 | Evidence | Source |
 |---|---|
-| Corrected joint **all per-seed observations** | [joint `optimisers/runs.csv`](results/protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv) |
-| Joint five-seed means, SD, FPR and feature reduction | [joint `optimisers/summary.csv`](results/protocol_runs/20261116T151402Z_full_joint/optimisers/summary.csv) |
-| Joint RF hyperparameter options, seeds and budget | [joint `optimisers/run_config.json`](results/protocol_runs/20261116T151402Z_full_joint/optimisers/run_config.json) |
-| Joint provenance, dataset SHA-256, dependency versions, source hashes, status | [joint `manifest.json`](results/protocol_runs/20261116T151402Z_full_joint/manifest.json) |
-| Joint full-feature baseline observations | [joint `baselines/baseline_runs.csv`](results/protocol_runs/20261116T151402Z_full_joint/baselines/baseline_runs.csv) |
-| Joint full-feature baseline summary | [joint `baselines/baseline_summary.csv`](results/protocol_runs/20261116T151402Z_full_joint/baselines/baseline_summary.csv) |
-| Feature-only per-seed observations | [feature-only `optimisers/runs.csv`](results/protocol_runs/20261115T183225Z_full/optimisers/runs.csv) |
-| Feature-only five-seed summary | [feature-only `optimisers/summary.csv`](results/protocol_runs/20261115T183225Z_full/optimisers/summary.csv) |
-| Feature-only provenance and settings | [feature-only `manifest.json`](results/protocol_runs/20261115T183225Z_full/manifest.json), [run config](results/protocol_runs/20261115T183225Z_full/optimisers/run_config.json) |
+| Corrected joint **all per-seed observations** | [joint `optimisers/runs.csv`](protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv) |
+| Joint five-seed means, SD, FPR and feature reduction | [joint `optimisers/summary.csv`](protocol_runs/20261116T151402Z_full_joint/optimisers/summary.csv) |
+| Joint RF hyperparameter options, seeds and budget | [joint `optimisers/run_config.json`](protocol_runs/20261116T151402Z_full_joint/optimisers/run_config.json) |
+| Joint provenance, dataset SHA-256, dependency versions, source hashes, status | [joint `manifest.json`](protocol_runs/20261116T151402Z_full_joint/manifest.json) |
+| Joint full-feature baseline observations | [joint `baselines/baseline_runs.csv`](protocol_runs/20261116T151402Z_full_joint/baselines/baseline_runs.csv) |
+| Joint full-feature baseline summary | [joint `baselines/baseline_summary.csv`](protocol_runs/20261116T151402Z_full_joint/baselines/baseline_summary.csv) |
+| Feature-only per-seed observations | [feature-only `optimisers/runs.csv`](protocol_runs/20261115T183225Z_full/optimisers/runs.csv) |
+| Feature-only five-seed summary | [feature-only `optimisers/summary.csv`](protocol_runs/20261115T183225Z_full/optimisers/summary.csv) |
+| Feature-only provenance and settings | [feature-only `manifest.json`](protocol_runs/20261115T183225Z_full/manifest.json), [run config](protocol_runs/20261115T183225Z_full/optimisers/run_config.json) |
 | Paired tests and confidence intervals | [`statistical_analysis/paired_joint_comparison.csv`](statistical_analysis/paired_joint_comparison.csv) |
 | Independently produced paired verification | [`paired_verification.csv`](paired_verification.csv) |
 
-Each official optimiser run also contains five [NSGA-II Pareto archive CSVs](results/protocol_runs/20261116T151402Z_full_joint/optimisers/pareto_seed_42.csv) (one for each seed) and seed-42 GA feature and RF hyperparameter JSON in `optimisers/models/`. The **original trained GA joint `.joblib` is not committed**. Synthetic smoke folders may contain small `.joblib` files, which must never be presented as the official trained benchmark.
+Each official optimiser run also contains five [NSGA-II Pareto archive CSVs](protocol_runs/20261116T151402Z_full_joint/optimisers/pareto_seed_42.csv) (one for each seed) and seed-42 GA feature and RF hyperparameter JSON in `optimisers/models/`. The **original trained GA joint `.joblib` is not committed**. Synthetic smoke folders may contain small `.joblib` files, which must never be presented as the official trained benchmark.
 
 ## Historical summaries retained separately
 

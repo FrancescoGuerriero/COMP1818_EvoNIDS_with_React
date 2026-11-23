@@ -29,3 +29,17 @@ results/protocol_runs/**/optimisers/models/*.joblib
 
 # Generated trained models
 results/protocol_runs/**/*.joblib
+
+# LaTeX compilation intermediates (keep main.tex, ref.bib, published PNG/PDF)
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot

@@ -35,3 +35,9 @@ This report preserves the original EvoNIDS scientific content while repairing pr
 ## Latest report expansion
 
 The four-page research body now includes discussion of the limits of five-seed aggregate plots, separation of figure reproduction from full model retraining, and why benchmark false-positive rates and feature-count reductions do not directly establish live-system efficiency. References remain on page five.
+
+## Canonical location and reproducibility boundary
+
+The canonical report directory is **`report/latex/COMP1818_EvoNIDS_LaTeX/`**. A second older extracted copy exists under `report/COMP1818_EvoNIDS_LaTeX_Full_Four_Page_Project/` along with a ZIP; do not edit both as though they were two independent reports. The current compiled `main.pdf` corresponds to the canonical `main.tex`, and the raw experimental CSVs are independently linked in [the results index](../../../results/README.md).
+
+The report figures can be regenerated from committed **CSV snapshots**; this is *not* evidence of a new full classifier-training run. The underlying corrected 20-run joint CSV and 20-run feature-only CSV, experiment SHA-256 manifests, statistics and run modes remain the authoritative measurements. For Git commands and avoiding accidental path duplication, see [the project Git checklist](../../../docs/GIT_AND_SUBMISSION.md).

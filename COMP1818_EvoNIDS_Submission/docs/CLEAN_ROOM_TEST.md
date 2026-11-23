@@ -23,3 +23,7 @@ The final Windows release should therefore repeat the documented PowerShell/Git 
 ## Scope
 
 This smoke test covers the generated submission structure and Windows IDS prototype. It does not re-run the full five-seed 300-evaluation UNSW-NB15 experiment because the canonical local research source and raw dataset are not present in this execution container.
+
+## Later automated verification (different scope)
+
+The 1 November two-test clean-room record above is historical and must **not** be represented as the current full test count. Current [Windows GitHub Actions](https://github.com/FrancescoGuerriero/COMP1818_EvoNIDS_with_React/actions/workflows/evonids-windows-reproducibility.yml) validates the expanded Python suite, synthetic joint optimisation, synthetic FastAPI model replay, saved CSV paired comparison, repository evidence links, and React build on fresh hosted runners. See [REPRODUCTION.md](REPRODUCTION.md) and [results index](../results/README.md). These hosted tests do not download the official training data or refit the full five-seed benchmark.

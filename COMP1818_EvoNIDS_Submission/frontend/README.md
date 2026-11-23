@@ -1,81 +1,44 @@
-# EvoNIDS React Frontend
+# EvoNIDS React / TypeScript dashboard
 
-React + TypeScript + Vite control-centre for the Windows IDS research prototype.
+The React + Vite frontend presents **published research summaries** and separately exposes a local FastAPI demonstration with passive Windows socket telemetry and compatible CSV inference. These are not the same evidence streams.
 
-## Architecture
-
-The browser talks only to the local EvoNIDS Python API:
+Architecture:
 
 ```text
-React / Vite :5173
-      |
-      +--> GET  /api/health
-      +--> GET  /api/connections
-      +--> POST /api/replay
-                  |
-                  +--> passive psutil telemetry
-                  +--> saved sklearn IDS pipeline
+React :5173 ── GET /api/health ─┐
+             GET /api/connections ├── local Python FastAPI :8000
+             POST /api/replay ────┘    (trusted saved sklearn pipeline)
 ```
 
-The live-connection screen shows passive Windows socket/process telemetry. Model replay accepts CSV data compatible with the saved classifier pipeline. Raw socket telemetry is **not** silently treated as UNSW-NB15 feature data.
+**Research Results:** corrected feature-only and joint GA/BPSO/PSO/NSGA-II five-seed means, XGBoost/RF/logistic/Dummy baselines, selected features and false-positive rates. Source-of-truth: [results index](../results/README.md), [official joint summary](../results/protocol_runs/20261116T151402Z_full_joint/optimisers/summary.csv) and [paired analysis](../results/statistical_analysis/paired_joint_comparison.csv). The leading research score is **joint PSO mean Macro-F1 0.881373**, not the identity or accuracy of the locally loaded replay model.
 
-## 1. Start the Python API
+**Live Connections:** Windows `psutil` process/socket snapshots; offline fallback rows are labelled synthetic/demonstration.
 
-From the repository root:
+**Model Replay:** CSV input goes to the Python API; its model is selected via `EVONIDS_MODEL`. Direct Windows socket telemetry is **not** a valid UNSW-NB15 feature vector.
+
+## Start an isolated demo on Windows / VS Code
+
+From `COMP1818_EvoNIDS_Submission/`, in terminal 1:
 
 ```bash
-python -m uvicorn prototype.api:app --host 127.0.0.1 --port 8000 --reload
+python -m prototype.train_demo_model --output models/demo_pipeline.joblib --csv-output results/demo_rows.csv
+export EVONIDS_MODEL="models/demo_pipeline.joblib"  # Git Bash
+python -m uvicorn prototype.api:app --host 127.0.0.1 --port 8000
 ```
 
-Check `http://127.0.0.1:8000/api/health`.
+PowerShell equivalent for environment variable: `$env:EVONIDS_MODEL="models/demo_pipeline.joblib"`. API health check: http://127.0.0.1:8000/api/health.
 
-For replay mode, either create the included smoke-test model:
-
-```bash
-python -m prototype.train_demo_model --output models/demo_pipeline.joblib
-```
-
-or point the API at the real trained coursework pipeline:
-
-### Git Bash
-
-```bash
-export EVONIDS_MODEL=models/ga_rf_pipeline.joblib
-```
-
-### PowerShell
-
-```powershell
-$env:EVONIDS_MODEL="models/ga_rf_pipeline.joblib"
-```
-
-## 2. Start React
-
-Open a second terminal:
+Terminal 2 (start from `COMP1818_EvoNIDS_Submission/`):
 
 ```bash
 cd frontend
-npm install
+npm ci
+npm run build
 npm run dev
 ```
 
-Open `http://127.0.0.1:5173`.
+Open http://127.0.0.1:5173. Synthetic demo data may be used for the Model Replay tab. The demonstration-model score is **not** a research benchmark; do not relabel it GA or PSO test performance.
 
-## 3. Production build
+For a trusted local benchmark model, read [REAL_MODEL_REPLAY_ACCEPTANCE.md](../docs/REAL_MODEL_REPLAY_ACCEPTANCE.md). The historical trained joint GA `.joblib` was not committed; the trained model's source feature list and RF settings JSON are versioned. An external publicly hosted inference API is **not** provided.
 
-```bash
-npm run build
-```
-
-Vite writes the static application to `frontend/dist/`.
-
-## Views
-
-- **Overview** — project architecture and headline GA/RF results.
-- **Live Connections** — polls `/api/connections` every three seconds and falls back to clearly labelled demo rows when the local API is unavailable.
-- **Model Replay** — reads a selected CSV in the browser and submits it to `/api/replay`; scoring remains server-side.
-- **Research Results** — report-ready GA, BPSO, PSO, NSGA-II and baseline comparison.
-
-## Safety and scientific validity
-
-The prototype is passive. It does not block connections, modify Windows Firewall, terminate processes, scan external systems, or claim that ordinary Windows socket fields are equivalent to UNSW-NB15 engineered flow features.
+GitHub CI builds the frontend with Node.js 22 and `npm ci && npm run build`. Vite writes the static bundle to `frontend/dist/`. For version control and submission instructions see [GIT_AND_SUBMISSION.md](../docs/GIT_AND_SUBMISSION.md).

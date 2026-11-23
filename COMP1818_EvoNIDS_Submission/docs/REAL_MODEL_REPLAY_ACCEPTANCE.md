@@ -2,7 +2,7 @@
 
 The GitHub Actions workflow tests the **synthetic demonstration model**. For real-model acceptance, use the locally saved GA seed-42 joint Random Forest pipeline, exported by `research/src/run_experiments.py` during the corrected 16 November full joint run. The algorithm with the highest *mean* test Macro-F1 is joint **PSO**, but the code currently exports the **GA seed-42** pipeline only. Do **not** label the GA export as the PSO model, and do not select a model solely because it attained a high held-out test score.
 
-The canonical nested project root is `COMP1818_EvoNIDS_Submission`.
+The canonical nested project root is `COMP1818_EvoNIDS_Submission`. The public research index is [results/README.md](../results/README.md); results browsing and real-model online execution are separate capabilities.
 
 ## Local checklist
 

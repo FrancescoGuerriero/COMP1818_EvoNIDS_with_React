@@ -8,6 +8,8 @@
 
 **Optional public Pages website (requires the repo owner to enable Pages once):** https://francescoguerriero.github.io/COMP1818_EvoNIDS_with_React/
 
+For full details, use the [all-results index](../results/README.md), [reproduction guide](REPRODUCTION.md) and [Git/submission checklist](GIT_AND_SUBMISSION.md). Historical early GA-leading results are separate from the corrected joint PSO-leading experiment.
+
 All experiment evidence is public on GitHub without installing the project or having access to the student's locally saved model. If GitHub Pages needs enabling, the primary CSV links below remain accessible.
 
 - [Corrected joint: all 20 algorithm/seed results](../results/protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv)
@@ -16,7 +18,7 @@ All experiment evidence is public on GitHub without installing the project or ha
 - [Experiment configuration](../results/protocol_runs/20261116T151402Z_full_joint/optimisers/run_config.json)
 - [Full-feature baselines](../results/protocol_runs/20261116T151402Z_full_joint/baselines/baseline_summary.csv)
 - [Provenance manifest and dataset SHA-256 hashes](../results/protocol_runs/20261116T151402Z_full_joint/manifest.json)
-- [Coursework PDF](../report/COMP1818_EvoNIDS_Report.pdf)
+- [Latest five-page LaTeX report PDF](../report/latex/COMP1818_EvoNIDS_LaTeX/main.pdf) and [editable source](../report/latex/COMP1818_EvoNIDS_LaTeX/main.tex)
 - [Source dataset](https://research.unsw.edu.au/projects/unsw-nb15-dataset)
 
 ## Rerun verification online

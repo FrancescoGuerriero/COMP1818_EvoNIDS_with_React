@@ -1,250 +1,98 @@
-Multi-Objective Evolutionary Feature Selection for Efficient Network Intrusion Detection
+# EvoNIDS — COMP-1818 Artificial Intelligence Applications
 
-COMP1818 Artificial Intelligence Applications coursework implementation and reproducibility package.
+**Multi-Objective Evolutionary Feature Selection for Efficient Network Intrusion Detection**
 
-Project objective
+This is the reproducible research and React prototype package. Start with the [lecturer's online evidence guide](docs/ONLINE_EXPERIMENTS.md), [experiment index](results/README.md), [protocol](docs/EXPERIMENT_PROTOCOL.md) and [latest editable LaTeX report](report/latex/COMP1818_EvoNIDS_LaTeX/README.md).
 
-This project evaluates Genetic Algorithm (GA), Binary Particle Swarm Optimisation (BPSO), Particle Swarm Optimisation (PSO), and NSGA-II feature selection for binary network intrusion detection on UNSW-NB15. The primary objective is to reduce raw network-traffic dimensionality while maintaining predictive performance.
+## Corrected UNSW-NB15 experimental results
 
-The final controlled comparison uses five seeds (`42, 101, 202, 303, 404`) and an equal budget of 300 unique expensive fitness evaluations per optimiser per seed. Random Forest is used as the wrapper classifier. Full-feature Dummy, Logistic Regression, Random Forest, and XGBoost baselines are also evaluated.
+Five matched seeds (`42, 101, 202, 303, 404`), four evolutionary methods, **300 unique expensive candidate fits per method per seed**, 42 eligible raw predictors, and official UNSW-NB15 train/test partitions. Random Forest (RF) is the wrapper classifier. GA, BPSO, PSO and NSGA-II were compared in feature-only and joint feature-selection/RF-hyperparameter modes.
 
-Historical study summary (earlier local implementation; not the corrected November 2026 joint experiment)
+| Method | Feature-only mean test Macro-F1 | Corrected joint mean test Macro-F1 | Joint mean features / 42 | Joint reduction |
+|---|---:|---:|---:|---:|
+| GA | 0.861168 | 0.878881 | 9.8 | 76.67% |
+| BPSO | 0.859390 | 0.877153 | 12.6 | 70.00% |
+| PSO | 0.864282 | 0.881373 | 11.4 | 72.86% |
+| NSGA-II | 0.839713 | 0.843918 | 6.0 | 85.71% |
 
-GA + Random Forest was reported to achieve the strongest feature-selection trade-off in the earlier study:
+The **corrected joint PSO** experiment has the highest mean test Macro-F1, 0.881373 (SD 0.008072), with 72.86% average feature reduction and mean false-positive rate 0.219708. Full-feature corrected-run baselines: XGBoost 0.866822; RF 0.864103; logistic regression 0.829171; Dummy 0.355088. These comparisons are descriptive; different computational search costs and the small sample of five seeds constrain conclusions.
 
-- Macro-F1: **0.865394 +/- 0.003952**
-- Mean selected raw predictors: **10.2 / 42**
-- Mean feature reduction: **75.71%**
-- False-positive rate: **0.254795**
-- Full-feature RF Macro-F1: **0.864225 +/- 0.000689**
-- Full-feature XGBoost Macro-F1: **0.870417 +/- 0.000866** (highest absolute predictive result)
+The matched PSO mean gain over feature-only is +0.017091 (95% paired-t CI [0.006659, 0.027523]); paired t p=0.010427 but exact two-sided Wilcoxon p=0.0625. **Do not claim robust or multiple-testing-adjusted significance.** See [paired statistics](results/statistical_analysis/paired_joint_comparison.csv).
 
-These values belong to the earlier study and must not be conflated with the November 2026 reproduced feature-only or corrected joint runs. The later equal-budget comparison and results are listed below.
+**Crucial provenance:** The earlier run `results/protocol_runs/20261116T100750Z_full_joint` was labelled joint but actually ran **feature-only** due to a CLI argument-forwarding defect. It is retained for transparency and must not be cited as joint HPO evidence. The valid feature-only run is `results/protocol_runs/20261115T183225Z_full`, and the valid corrected joint run is `results/protocol_runs/20261116T151402Z_full_joint`. Older aggregate CSVs such as `results/final_summary.csv` and the initial Word/PDF paper relate to an **earlier historical study**; their GA-leading values are not interchangeable with the corrected joint study.
 
-Repository layout
+## Browse evidence online
 
-```text
-.
-|-- README.md
-|-- requirements.txt
-|-- pyproject.toml
-|-- .gitignore
-|-- report/
-|   |-- COMP1818_EvoNIDS_Report.docx
-|   `-- COMP1818_EvoNIDS_Report.pdf
-|-- docs/
-|   |-- EXPERIMENT_PROTOCOL.md
-|   `-- REPRODUCTION.md
-|-- research/
-|   `-- README.md
-|-- frontend/
-|   |-- src/
-|   |-- package.json
-|   `-- README.md
-|-- prototype/
-|   |-- windows_ids.py
-|   |-- model_io.py
-|   |-- telemetry.py
-|   |-- replay.py
-|   |-- train_demo_model.py
-|   |-- config/selected_features.json
-|   `-- tests/
-|-- results/
-|   |-- final_summary.csv
-|   |-- budget_effect.csv
-|   |-- generalisation_gap.csv
-|   `-- feature_consensus.csv
-`-- tools/
-    |-- package_existing_project.py
-    `-- verify_submission.py
-```
+- [All corrected joint seed-level results](results/protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv) · [joint summary](results/protocol_runs/20261116T151402Z_full_joint/optimisers/summary.csv) · [configuration](results/protocol_runs/20261116T151402Z_full_joint/optimisers/run_config.json)
+- [All feature-only seed-level results](results/protocol_runs/20261115T183225Z_full/optimisers/runs.csv) · [feature-only summary](results/protocol_runs/20261115T183225Z_full/optimisers/summary.csv)
+- [Official-run baseline scores](results/protocol_runs/20261116T151402Z_full_joint/baselines/baseline_summary.csv) · [paired statistical output](results/statistical_analysis/paired_joint_comparison.csv)
+- [Execution provenance, input SHA-256 digests and dependency versions](results/protocol_runs/20261116T151402Z_full_joint/manifest.json)
+- [Published charts](../online-experiments/index.html) · [public GitHub graphs](../README.md)
+- [Latest LaTeX report source](report/latex/COMP1818_EvoNIDS_LaTeX/main.tex) · [compiled LaTeX PDF](report/latex/COMP1818_EvoNIDS_LaTeX/main.pdf)
 
-Dataset
+The repository includes the full source code and result tables; **the original trained full-dataset GA joint `.joblib` is not uploaded**. Synthetic smoke-model binaries under `results/smoke/` and `results/joint_fix_smoke/` are not official benchmark models. The independent online CI does not repeat the expensive full dataset search.
 
-Dataset: UNSW-NB15
-
-Official source: https://research.unsw.edu.au/projects/unsw-nb15-dataset
-
-Expected local files for the full coursework experiments:
+## Layout and environment
 
 ```text
-data/raw/UNSW_NB15_training-set.csv
-data/raw/UNSW_NB15_testing-set.csv
+COMP1818_EvoNIDS_Submission/
+├── research/          # GA, BPSO, PSO, NSGA-II, baselines and tests
+├── prototype/         # passive Windows connection monitoring and CSV replay API
+├── frontend/          # React + TypeScript + Vite research console
+├── results/           # earlier study, feature-only, corrected joint, provenance and smoke evidence
+├── report/latex/COMP1818_EvoNIDS_LaTeX/  # editable 5-page LaTeX report and figure generator
+├── docs/              # protocol, reproduction and lecturer guides
+└── tools/             # recorded experiment runner, statistical checks, verification
 ```
 
-Binary target: `label`.
-
-The identifier `id` and multiclass attack category `attack_cat` are excluded from the binary predictor set, leaving 42 raw predictors.
-
-The raw dataset is intentionally not bundled in this repository package. Download it from the official source and place the two CSV files under `data/raw/`.
-
-Python environment
-
-The coursework experiments were developed with Python 3.12.
-
-Windows / Git Bash
+From a VS Code terminal at **this directory**, use Python 3.12:
 
 ```bash
 python -m venv .venv
-source .venv/Scripts/activate
-python -m pip install --upgrade pip
+source .venv/Scripts/activate  # Git Bash; for PowerShell: .\.venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-```
-
-### Windows PowerShell
-
-```powershell
-py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-Linux
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-Tests
-
-```bash
-python -m pytest
-```
-
-For the curated submission package, verify the expected release structure with:
-
-```bash
-python tools/verify_submission.py
-```
-
-Full experiment commands
-
-Run from this nested `COMP1818_EvoNIDS_Submission` directory. The research implementation is now checked into the repository. Both commands use the same five seeds and equal 300-unique-candidate budget per method/seed; they write new timestamped result directories and do not overwrite published results.
-
-Feature-only optimisation and full-feature baselines:
-
-```bash
-python tools/run_protocol.py --phase full --optimisation features \\
-  --train data/raw/UNSW_NB15_training-set.csv \\
-  --test data/raw/UNSW_NB15_testing-set.csv \\
-  --seeds 42 101 202 303 404 --budget 300 --population 8 \\
-  --search-train-size 20000 --search-valid-size 8000
-```
-
-Joint feature selection and Random Forest hyperparameter optimisation:
-
-```bash
-python tools/run_protocol.py --phase full --optimisation joint \\
-  --train data/raw/UNSW_NB15_training-set.csv \\
-  --test data/raw/UNSW_NB15_testing-set.csv \\
-  --seeds 42 101 202 303 404 --budget 300 --population 8 \\
-  --search-train-size 20000 --search-valid-size 8000
-```
-
-Synthetic-only verification without UNSW-NB15:
-
-```bash
 python -m pytest -q research/tests prototype/tests
-python tools/run_protocol.py --phase smoke --optimisation joint
+python tools/check_repository_evidence.py
 ```
 
-Reproduce the published five-seed paired statistics without re-training classifiers:
+To verify the **published** five-seed paired comparison without retraining:
 
 ```bash
-python tools/compare_joint_statistics.py \\
-  results/protocol_runs/20261115T183225Z_full/optimisers/runs.csv \\
-  results/protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv
+python tools/compare_joint_statistics.py \
+  results/protocol_runs/20261115T183225Z_full/optimisers/runs.csv \
+  results/protocol_runs/20261116T151402Z_full_joint/optimisers/runs.csv \
+  --output results/paired_verification.csv
 ```
 
-The corrected joint experiment is recorded under `results/protocol_runs/20261116T151402Z_full_joint/`. The earlier `20261116T100750Z_full_joint/` mistakenly ran feature-only optimisation despite being requested as joint; **do not use it as evidence of RF hyperparameter optimisation**.
+This writes a verification copy, not new experiment evidence. Compare with [the canonical comparison](results/statistical_analysis/paired_joint_comparison.csv).
 
-### Corrected experiment means (test Macro-F1)
+Full experimental reruns require the official [UNSW-NB15](https://research.unsw.edu.au/projects/unsw-nb15-dataset) CSV partitions in `data/raw/`. **Do not rerun expensive searches simply to check the existing results**. The exact full-run commands, search options and constraints are in [REPRODUCTION.md](docs/REPRODUCTION.md) and [EXPERIMENT_PROTOCOL.md](docs/EXPERIMENT_PROTOCOL.md).
 
-| Method | Feature-only | Joint RF-HPO | Joint mean features |
-|---|---:|---:|---:|
-| GA | 0.861168 | 0.878881 | 9.8 |
-| BPSO | 0.859390 | 0.877153 | 12.6 |
-| PSO | 0.864282 | **0.881373** | 11.4 |
-| NSGA-II | 0.839713 | 0.843918 | 6.0 |
+## Running the React/FastAPI demonstration
 
-PSO joint mode has the highest *mean* Macro-F1 across the five matched seeds. With n=5, paired t/Wilcoxon statistics are exploratory, not definitive. See `results/statistical_analysis/paired_joint_comparison.csv` and `docs/EXPERIMENT_PROTOCOL.md`.
-
-React frontend
-
-The `frontend/` directory contains a React + TypeScript + Vite control-centre UI for the Windows IDS prototype. It includes:
-
-- research overview and final model metrics;
-- passive Windows connection-monitor view;
-- CSV/model replay workflow;
-- GA/BPSO/PSO/NSGA-II results view.
-
-Start the local Python API first:
+From the package root, terminal 1:
 
 ```bash
-python -m uvicorn prototype.api:app --host 127.0.0.1 --port 8000 --reload
+python -m prototype.train_demo_model --output models/demo_pipeline.joblib --csv-output results/demo_rows.csv
+export EVONIDS_MODEL="models/demo_pipeline.joblib"  # Git Bash
+python -m uvicorn prototype.api:app --host 127.0.0.1 --port 8000
 ```
 
-Then in a second terminal:
+In terminal 2, still inside the package root:
 
 ```bash
 cd frontend
-npm install
+npm ci
+npm run build
 npm run dev
 ```
 
-Open `http://127.0.0.1:5173`. The Live Connections page polls the passive Windows telemetry API and Model Replay sends CSV content to the saved Python classifier. If the API is unavailable, the connection table falls back to rows that are explicitly labelled as demonstration data. Build the production bundle with `npm run build`.
+Visit http://127.0.0.1:5173. This model is **synthetic**: it checks wiring only. Passive Windows socket fields are **not** an UNSW-NB15 engineered feature vector. For real saved-model replay use [the separate local acceptance guide](docs/REAL_MODEL_REPLAY_ACCEPTANCE.md); online live benchmark scoring is not claimed.
 
-Windows IDS prototype
+## Report, Git and submission
 
-The `prototype/` directory provides a passive, defensive Windows IDS prototype with two roles:
+The [latest LaTeX report](report/latex/COMP1818_EvoNIDS_LaTeX/README.md) includes reproducible Matplotlib figure source and native LaTeX tables/equations. An older copy remains in `report/COMP1818_EvoNIDS_LaTeX_Full_Four_Page_Project/` and a ZIP is archived; **use `report/latex/COMP1818_EvoNIDS_LaTeX/` as the working location**. A five-page PDF is included there. The prior separately produced Word/PDF may be absent from the latest repository; prefer the LaTeX PDF when the module allows its format. This recreates the provided example style, not a verified exact Moodle style package.
 
-1. `replay`: run a trained scikit-learn pipeline against UNSW-NB15-compatible CSV rows.
-2. `monitor`: display passive local TCP/UDP connection telemetry obtained through `psutil` without blocking traffic or changing firewall rules.
+See [Git and submission checklist](docs/GIT_AND_SUBMISSION.md) for safe staging, LaTeX builds, clean-clone verification and online publication. Check Moodle for the authoritative report format and upload instructions. Do not commit raw benchmark data, virtual environments, `node_modules`, secrets or untrusted `.joblib` models.
 
-The live Windows telemetry is deliberately separated from the coursework benchmark model because Windows socket telemetry does not natively provide all UNSW-NB15 engineered features. It is therefore a prototype integration layer, not a claim that the benchmark model can classify arbitrary live sockets without a compatible flow-feature extractor.
-
-Run:
-
-```bash
-python -m prototype.windows_ids --help
-python -m prototype.windows_ids monitor --interval 2
-python -m prototype.windows_ids replay --csv path/to/unsw_compatible.csv --model models/ga_rf_pipeline.joblib
-```
-
-A synthetic demonstration model can be created only for smoke-testing the prototype wiring:
-
-```bash
-python -m prototype.train_demo_model --output models/demo_pipeline.joblib
-```
-
-Synthetic demo results are not coursework benchmark results.
-
-Reproducible submission build
-
-From the canonical local project root, use:
-
-```bash
-python tools/package_existing_project.py --source . --destination ../COMP1818_EvoNIDS_Submission
-```
-
-The packager excludes machine-specific and unnecessary material such as `.venv`, caches, IDE metadata, Node modules, temporary logs, build output, and Python bytecode while preserving research source, tests, results, report material, prototype code, and reproducibility documentation.
-
-See `docs/REPRODUCTION.md` for a clean-room verification procedure.
-
-Coursework delivery
-
-The formal Moodle submission is the report PDF. The report should contain:
-
-- a clearly labelled GitHub implementation link;
-- the official UNSW-NB15 dataset link;
-- enough detail for the teaching team to map the report claims to code and result files.
-
-Do not upload the code archive to Moodle unless the teaching team explicitly requests it; keep the implementation available through the GitHub link used in the report.
-
-Academic integrity and AI use
-
-The report includes the required 60-100 word reflection on generative-AI use. Experimental outputs are generated by the implemented Python pipeline; AI assistance is described as development, explanation, review, and writing support rather than as a source of experimental measurements.
+**Academic integrity:** the report's AI-use disclosure distinguishes assistance with explanation, code review and editing from independently executed Python experimental measurements.

@@ -36,6 +36,9 @@ jobs:
       - name: Run unit and CLI integration tests
         run: python -m pytest -q research/tests prototype/tests
 
+      - name: Audit committed research evidence and report sources
+        run: python tools/check_repository_evidence.py
+
       - name: Check saved-model replay using synthetic demo data
         run: |
           python -m prototype.train_demo_model --output models/ci_demo_pipeline.joblib --csv-output results/ci_demo_rows.csv

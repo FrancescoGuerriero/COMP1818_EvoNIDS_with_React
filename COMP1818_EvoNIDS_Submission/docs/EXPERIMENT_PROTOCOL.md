@@ -65,6 +65,10 @@ Secondary:
 
 Five matched stochastic seeds are used. Friedman and pairwise Wilcoxon analyses are interpreted conservatively because `n=5` provides limited statistical power. Descriptive differences, seed wins, variance, and effect sizes should be reported alongside p-values.
 
+## Authoritative study selection and related documentation
+
+For the assessment-ready **corrected joint** results use [the exact result index](../results/README.md) and `results/protocol_runs/20261116T151402Z_full_joint/`, not `results/final_summary.csv` (earlier historical GA-leading study). The current five-page LaTeX report is under `report/latex/COMP1818_EvoNIDS_LaTeX/`; figure source and CSV snapshots there allow plot regeneration without retraining. See [reproduction instructions](REPRODUCTION.md) and [Git/submission checklist](GIT_AND_SUBMISSION.md). No benchmark measurements are edited as part of this documentation audit.
+
 ## Current reproduction implementation / scope boundary
 
 `research/src/run_experiments.py` implements **both** feature-only optimisation (`--optimisation features`) and joint feature-mask/Random-Forest hyperparameter optimisation (`--optimisation joint`). The feature-only runs retain fixed RF settings; joint runs evaluate four encoded RF hyperparameters. The original historical canonical experiments are not claimed to be exactly reproduced from aggregate metrics.

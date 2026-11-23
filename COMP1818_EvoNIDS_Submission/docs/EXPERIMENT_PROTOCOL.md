@@ -148,7 +148,7 @@ The old five-seed study and new joint HPO study must be reported as separate
 experimental protocols; **joint HPO can never be called configuration-identical
 to a feature-only historical run**.
 
-## Verified November 2026 execution and reproducibility boundary
+## Verified execution and reproducibility boundary
 
 - Feature-only run: `results/protocol_runs/20261115T183225Z_full/`.
 - Invalid joint-labelled run (missing CLI mode-forwarding argument): `results/protocol_runs/20261116T100750Z_full_joint/`. It recorded `optimisation=features` and empty `rf_hyperparameters` and must **not** be used for joint-RF-HPO comparisons.

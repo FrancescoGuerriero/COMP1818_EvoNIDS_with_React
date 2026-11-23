@@ -12,6 +12,6 @@ python -m pytest -q research/tests prototype/tests
 python tools/run_protocol.py --phase smoke --optimisation joint
 ```
 
-Run official UNSW-NB15 experiments only after downloading the two CSVs per `data/README.md`.
+Run official UNSW-NB15 experiments only after downloading the two CSVs.
 
 An exact historical-source-equivalence claim requires the original implementation and configuration; similarity of summary metrics is not proof of equivalence.

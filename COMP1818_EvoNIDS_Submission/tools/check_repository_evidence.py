@@ -23,6 +23,7 @@ NEEDED=[
 "report/latex/COMP1818_EvoNIDS_LaTeX/figures/generate_figures.py",
 "results/statistical_analysis/paired_joint_comparison.csv",
 "results/paired_verification.csv",
+"results/protocol_runs/20261116T100750Z_full_joint/optimisers/runs.csv",
 ]
 for family in (FEATURE, JOINT):
     NEEDED += [family + name for name in (
@@ -76,8 +77,11 @@ def main() -> None:
     original=verify(FEATURE,"features")
     corrected=verify(JOINT,"joint")
     invalid=json.loads((ROOT/INVALID/"optimisers/run_config.json").read_text(encoding="utf-8"))
-    if invalid["optimisation"]!="features":
-        raise AssertionError("Previously invalid run changed its recorded optimisation mode")
+    invalid_rows=read_csv(INVALID+"optimisers/runs.csv")
+    if invalid["optimisation"]!="joint" or not invalid_rows:
+        raise AssertionError("Invalid historical run must retain joint request metadata and recorded rows")
+    if not all(row["optimisation"]=="features" and not json.loads(row["rf_hyperparameters"]) for row in invalid_rows):
+        raise AssertionError("Mislabelled joint run must contain actual feature-only observations")
     paired={row["method"]:row for row in read_csv("results/statistical_analysis/paired_joint_comparison.csv")}
     duplicate={row["method"]:row for row in read_csv("results/paired_verification.csv")}
     if set(paired)!=EXPECTED_METHODS or set(duplicate)!=EXPECTED_METHODS:
